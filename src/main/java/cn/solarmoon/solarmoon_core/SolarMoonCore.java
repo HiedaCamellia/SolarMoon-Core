@@ -1,6 +1,7 @@
 package cn.solarmoon.solarmoon_core;
 
 import cn.solarmoon.solarmoon_core.registry.Capabilities;
+import cn.solarmoon.solarmoon_core.registry.Config;
 import cn.solarmoon.solarmoon_core.registry.Packs;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -22,6 +23,7 @@ public class SolarMoonCore {
 
         new Packs().register();
         new Capabilities().register(bus);
+        Config.register();
 
     }
 

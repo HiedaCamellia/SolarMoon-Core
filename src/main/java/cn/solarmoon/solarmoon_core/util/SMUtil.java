@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.util;
 
-import cn.solarmoon.solarmoon_core.init.Config;
+import cn.solarmoon.solarmoon_core.registry.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

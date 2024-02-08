@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.init;
+package cn.solarmoon.solarmoon_core.registry;
 
 import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import net.minecraftforge.common.ForgeConfigSpec;
