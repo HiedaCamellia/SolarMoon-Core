@@ -1,4 +1,4 @@
 <p align="center">
-  <img src="./IMG/logo.png" />
+  <img src="./IMG/CLogo.png" />
 </p>
 
