@@ -19,7 +19,7 @@ public class SMUtil {
             if(!level.isClientSide) return;
         }
         if(mc.player == null || !Config.deBug.get()) return;
-        mc.player.sendSystemMessage(Component.literal("[§6IM§f] "  + string));
+        mc.player.sendSystemMessage(Component.literal("[§6SM§f] "  + string));
     }
 
     /**
@@ -28,7 +28,7 @@ public class SMUtil {
     public static void deBug(String string) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player != null) {
-            mc.player.sendSystemMessage(Component.literal("[§6IM§f] "  + string));
+            mc.player.sendSystemMessage(Component.literal("[§6SM§f] "  + string));
         }
     }
 
@@ -38,7 +38,7 @@ public class SMUtil {
     public static void deBug(String string, Player player) {
         Level level = player.level();
         if(!level.isClientSide) {
-            player.sendSystemMessage(Component.literal("[§6IM§f] "  + string));
+            player.sendSystemMessage(Component.literal("[§6SM§f] "  + string));
         }
     }
 

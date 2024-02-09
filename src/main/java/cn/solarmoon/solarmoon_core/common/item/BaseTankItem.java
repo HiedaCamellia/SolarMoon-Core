@@ -1,7 +1,7 @@
 package cn.solarmoon.solarmoon_core.common.item;
 
 
-import cn.solarmoon.solarmoon_core.util.FluidTankUtil;
+import cn.solarmoon.solarmoon_core.util.FluidUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -38,20 +38,20 @@ public abstract class BaseTankItem extends BlockItem {
      * 检查物品内液体是否大于0
      */
     public boolean remainFluid(ItemStack stack) {
-        return !FluidTankUtil.getFluidStack(stack).isEmpty();
+        return !FluidUtil.getFluidStack(stack).isEmpty();
     }
 
     /**
      * 获取剩余容量
      */
-    public int getRemainFluid(ItemStack stack) {return this.maxCapacity - FluidTankUtil.getFluidStack(stack).getAmount();}
+    public int getRemainFluid(ItemStack stack) {return this.maxCapacity - FluidUtil.getFluidStack(stack).getAmount();}
 
     /**
      * 让物品根据所装溶液动态改变显示名称
      */
     @Override
     public Component getName(ItemStack stack) {
-        FluidStack fluidStack = FluidTankUtil.getFluidStack(stack);
+        FluidStack fluidStack = FluidUtil.getFluidStack(stack);
         int fluidAmount = fluidStack.getAmount();
         String fluid = fluidStack.getFluid().getFluidType().getDescription().getString();
         if(fluidAmount != 0) return Component.translatable(stack.getDescriptionId() + "_with_fluid", fluid);

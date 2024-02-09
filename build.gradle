@@ -79,6 +79,27 @@ minecraft {
     }
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/SolarMoonQAQ/SolarMoon-Core")
+            credentials {
+                username = "SolarMoonQAQ"
+                password = "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"
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId archivesBaseName
+            from components.java
+        }
+    }
+}
+
+
+
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
     config "${mod_id}.mixins.json"
@@ -130,18 +151,6 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    //jei
-    compileOnly(fg.deobf("mezz.jei:jei-1.20.1-common-api:${jei_version}"))
-    compileOnly(fg.deobf("mezz.jei:jei-1.20.1-forge-api:${jei_version}"))
-    runtimeOnly(fg.deobf("mezz.jei:jei-1.20.1-forge:${jei_version}"))
-
-    //玉
-    implementation fg.deobf("maven.modrinth:jade:${jade_version}")
-
-    //苹果皮
-    runtimeOnly fg.deobf("squeek.appleskin:appleskin-forge:${appleskin_version}")
-    compileOnly fg.deobf("squeek.appleskin:appleskin-forge:${appleskin_version}:api")
-
     //mixin
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
@@ -176,19 +185,6 @@ tasks.named('jar', Jar).configure {
     }
 
     finalizedBy 'reobfJar'
-}
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
 }
 
 tasks.withType(JavaCompile).configureEach {

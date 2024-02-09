@@ -5,8 +5,8 @@ import cn.solarmoon.solarmoon_core.common.entity_block.entity.BaseTCBlockEntity;
 import cn.solarmoon.solarmoon_core.registry.Packs;
 import cn.solarmoon.solarmoon_core.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.util.LevelSummonUtil;
-import cn.solarmoon.solarmoon_core.util.namespace.NBTList;
-import cn.solarmoon.solarmoon_core.util.namespace.NETList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -68,8 +68,8 @@ public abstract class BaseContainerEntityBlock extends BasicEntityBlock {
         //防止放入物品未在客户端同步 而 造成的 假右键操作
         if (blockEntity instanceof BaseContainerBlockEntity c) {
             CompoundTag tag = new CompoundTag();
-            tag.put(NBTList.INVENTORY, c.inventory.serializeNBT());
-            Packs.BASE_CLIENT_PACK.getSender().send(NETList.SYNC_C_BLOCK, pos, tag);
+            tag.put(SolarNBTList.INVENTORY, c.inventory.serializeNBT());
+            Packs.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_C_BLOCK, pos, tag);
         }
     }
 

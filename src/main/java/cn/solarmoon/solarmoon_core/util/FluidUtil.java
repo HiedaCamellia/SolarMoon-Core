@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 /**
  * 主要用于对流体tank类进行处理
  */
-public class FluidTankUtil {
+public class FluidUtil {
 
     /**
      * 获取物品容器内的fluidTank

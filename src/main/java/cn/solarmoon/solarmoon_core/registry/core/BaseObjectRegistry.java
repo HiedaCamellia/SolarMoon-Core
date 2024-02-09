@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
  * 原版实例注册表
  * @param <T> 要注册的实例类型
  */
-public class BaseObjectRegistry<T> {
+public abstract class BaseObjectRegistry<T> {
 
     protected DeferredRegister<T> objects;
 

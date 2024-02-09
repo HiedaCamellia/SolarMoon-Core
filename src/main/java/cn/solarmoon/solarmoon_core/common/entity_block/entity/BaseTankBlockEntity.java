@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.common.entity_block.entity;
 
-import cn.solarmoon.solarmoon_core.util.namespace.NBTList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -62,7 +62,7 @@ public abstract class BaseTankBlockEntity extends BlockEntity {
      * 一个根据tag强制设置储罐内容物的方法
      */
     public void setFluid(CompoundTag tag) {
-        tank.readFromNBT(tag.getCompound(NBTList.FLUID));
+        tank.readFromNBT(tag.getCompound(SolarNBTList.FLUID));
     }
 
     /**
@@ -72,7 +72,7 @@ public abstract class BaseTankBlockEntity extends BlockEntity {
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        CompoundTag fluid = tag.getCompound(NBTList.FLUID);
+        CompoundTag fluid = tag.getCompound(SolarNBTList.FLUID);
         tank.readFromNBT(fluid);
     }
 
@@ -85,7 +85,7 @@ public abstract class BaseTankBlockEntity extends BlockEntity {
         super.saveAdditional(tag);
         CompoundTag fluid = new CompoundTag();
         tank.writeToNBT(fluid);
-        tag.put(NBTList.FLUID, fluid);
+        tag.put(SolarNBTList.FLUID, fluid);
     }
 
     @Override

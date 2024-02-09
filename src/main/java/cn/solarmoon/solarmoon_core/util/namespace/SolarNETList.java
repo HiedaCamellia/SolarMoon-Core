@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.util.namespace;
 
-public class NETList {
+public class SolarNETList {
 
     public static final String SYNC_C_BLOCK = "updateCBlock";
     public static final String SYNC_T_BLOCK = "updateTBlock";

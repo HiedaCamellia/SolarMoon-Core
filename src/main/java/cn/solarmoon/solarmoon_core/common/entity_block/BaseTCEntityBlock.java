@@ -4,10 +4,10 @@ package cn.solarmoon.solarmoon_core.common.entity_block;
 import cn.solarmoon.solarmoon_core.common.entity_block.entity.BaseTCBlockEntity;
 import cn.solarmoon.solarmoon_core.registry.Packs;
 import cn.solarmoon.solarmoon_core.util.ContainerUtil;
-import cn.solarmoon.solarmoon_core.util.FluidTankUtil;
+import cn.solarmoon.solarmoon_core.util.FluidUtil;
 import cn.solarmoon.solarmoon_core.util.LevelSummonUtil;
-import cn.solarmoon.solarmoon_core.util.namespace.NBTList;
-import cn.solarmoon.solarmoon_core.util.namespace.NETList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -79,9 +79,9 @@ public abstract class BaseTCEntityBlock extends BaseTankEntityBlock {
         //防止放入液体时液体值和物品未在客户端同步 而 造成的 假右键操作
         if (blockEntity instanceof BaseTCBlockEntity ct) {
             CompoundTag tag = new CompoundTag();
-            tag.put(NBTList.INVENTORY, ct.inventory.serializeNBT());
-            tag.put(NBTList.FLUID, ct.tank.writeToNBT(new CompoundTag()));
-            Packs.BASE_CLIENT_PACK.getSender().send(NETList.SYNC_TC_BLOCK, pos, tag);
+            tag.put(SolarNBTList.INVENTORY, ct.inventory.serializeNBT());
+            tag.put(SolarNBTList.FLUID, ct.tank.writeToNBT(new CompoundTag()));
+            Packs.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_TC_BLOCK, pos, tag);
         }
     }
 
@@ -94,7 +94,7 @@ public abstract class BaseTCEntityBlock extends BaseTankEntityBlock {
         super.setPlacedBy(level, pos, state, placer, stack);
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity == null) return;
-        FluidTankUtil.setTank(blockEntity, stack);
+        FluidUtil.setTank(blockEntity, stack);
         if(blockEntity instanceof BaseTCBlockEntity ct) {
             ct.setInventory(stack);
         }
@@ -109,7 +109,7 @@ public abstract class BaseTCEntityBlock extends BaseTankEntityBlock {
         ItemStack stack = super.getCloneItemStack(level, pos, state);
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity == null) return stack;
-        FluidTankUtil.setTank(stack, blockEntity);
+        FluidUtil.setTank(stack, blockEntity);
         if(blockEntity instanceof BaseTCBlockEntity ct) {
             ContainerUtil.setInventory(stack, ct);
         }
@@ -125,7 +125,7 @@ public abstract class BaseTCEntityBlock extends BaseTankEntityBlock {
         BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         ItemStack stack = new ItemStack(this);
         if(blockEntity != null) {
-            FluidTankUtil.setTank(stack, blockEntity);
+            FluidUtil.setTank(stack, blockEntity);
             if(blockEntity instanceof BaseTCBlockEntity ct) {
                 ContainerUtil.setInventory(stack, ct);
                 return Collections.singletonList(stack);
@@ -144,7 +144,7 @@ public abstract class BaseTCEntityBlock extends BaseTankEntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof BaseTCBlockEntity tc) {
             int itemSignal = ( (tc.getStacks().size() + 1) / tc.maxStackCount() ) * 15;
-            int tankSignal = (int) (FluidTankUtil.getScale(tc.tank) * 15);
+            int tankSignal = (int) (FluidUtil.getScale(tc.tank) * 15);
             return itemSignal == 15 ? itemSignal : tankSignal;
         }
         return 0;

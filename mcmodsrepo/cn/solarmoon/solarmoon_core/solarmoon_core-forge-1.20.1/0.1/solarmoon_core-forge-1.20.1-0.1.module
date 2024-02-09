@@ -1,0 +1,69 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "cn.solarmoon.solarmoon_core",
+    "module": "solarmoon_core-forge-1.20.1",
+    "version": "0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.1.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "solarmoon_core-forge-1.20.1-0.1.jar",
+          "url": "solarmoon_core-forge-1.20.1-0.1.jar",
+          "size": 121270,
+          "sha512": "f83c7c8f9a0cff1a3a3305174905b549ef0b042fe62ebee669e055779905a6344dc7580cd68df4fb4fa47399babc00953e48587281b82cc12e81b5bd61c600e9",
+          "sha256": "b7ca58d0c63d7a7b2ea35cc877055db6ef590627e8c872861dcc0869afdbb018",
+          "sha1": "9cb3fe3b71ff036a4e65b1b3e16d1d298a2f5e59",
+          "md5": "676cb8fef3936b7bfb0461b4be0488ff"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.minecraftforge",
+          "module": "forge",
+          "version": {
+            "requires": "1.20.1-47.1.3_mapped_official_1.20.1_at_da39a3ee5e6b4b0d3255bfef95601890afd80709"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "solarmoon_core-forge-1.20.1-0.1.jar",
+          "url": "solarmoon_core-forge-1.20.1-0.1.jar",
+          "size": 121270,
+          "sha512": "f83c7c8f9a0cff1a3a3305174905b549ef0b042fe62ebee669e055779905a6344dc7580cd68df4fb4fa47399babc00953e48587281b82cc12e81b5bd61c600e9",
+          "sha256": "b7ca58d0c63d7a7b2ea35cc877055db6ef590627e8c872861dcc0869afdbb018",
+          "sha1": "9cb3fe3b71ff036a4e65b1b3e16d1d298a2f5e59",
+          "md5": "676cb8fef3936b7bfb0461b4be0488ff"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "cn.solarmoon.solarmoon_core",
+    "module": "solarmoon-core",
+    "version": "0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.1.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "solarmoon-core-0.1.jar",
+          "url": "solarmoon-core-0.1.jar",
+          "size": 121270,
+          "sha512": "f3219819058c687cf14eab84a827bc66f7dae17df93a2658058e4c359d779cd705636a048ed780fe0b3abc0a524732bcf1a8ccb311bd4ed0bff401ddaece2064",
+          "sha256": "13cf8208aaba7f782a9c1478670932a2215bee35a9eab878f01620a17666f250",
+          "sha1": "a673d730faf26b6866ebe5e0558482387c623b68",
+          "md5": "ac2b649b6b9897ed36ab1a1503a6b853"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.minecraftforge",
+          "module": "forge",
+          "version": {
+            "requires": "1.20.1-47.1.3_mapped_official_1.20.1_at_da39a3ee5e6b4b0d3255bfef95601890afd80709"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "solarmoon-core-0.1.jar",
+          "url": "solarmoon-core-0.1.jar",
+          "size": 121270,
+          "sha512": "f3219819058c687cf14eab84a827bc66f7dae17df93a2658058e4c359d779cd705636a048ed780fe0b3abc0a524732bcf1a8ccb311bd4ed0bff401ddaece2064",
+          "sha256": "13cf8208aaba7f782a9c1478670932a2215bee35a9eab878f01620a17666f250",
+          "sha1": "a673d730faf26b6866ebe5e0558482387c623b68",
+          "md5": "ac2b649b6b9897ed36ab1a1503a6b853"
+        }
+      ]
+    }
+  ]
+}

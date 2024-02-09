@@ -7,7 +7,7 @@ import cn.solarmoon.solarmoon_core.common.item.IOptionalRecipeItem;
 import cn.solarmoon.solarmoon_core.registry.Capabilities;
 import cn.solarmoon.solarmoon_core.registry.Packs;
 import cn.solarmoon.solarmoon_core.util.CapabilityUtil;
-import cn.solarmoon.solarmoon_core.util.namespace.NETList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -67,8 +67,8 @@ public abstract class ItemMixin {
                 //客户端同步配方选择序列数
                 if (player instanceof ServerPlayer sp) {
                     RecipeSelectorData selector = CapabilityUtil.getData(sp, Capabilities.PLAYER_DATA).getRecipeSelectorData();
-                    Packs.BASE_CLIENT_PACK.getSender().send(NETList.SYNC_INDEX, selector.getIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
-                    Packs.BASE_CLIENT_PACK.getSender().send(NETList.SYNC_RECIPE_INDEX, selector.getRecipeIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
+                    Packs.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_INDEX, selector.getIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
+                    Packs.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_RECIPE_INDEX, selector.getRecipeIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
                 }
 
             }

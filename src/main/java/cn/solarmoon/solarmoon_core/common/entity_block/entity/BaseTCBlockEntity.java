@@ -1,7 +1,7 @@
 package cn.solarmoon.solarmoon_core.common.entity_block.entity;
 
 
-import cn.solarmoon.solarmoon_core.util.namespace.NBTList;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -41,13 +41,13 @@ public abstract class BaseTCBlockEntity extends BaseTankBlockEntity {
     @Override
     public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        tag.put(NBTList.INVENTORY, inventory.serializeNBT());
+        tag.put(SolarNBTList.INVENTORY, inventory.serializeNBT());
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        inventory.deserializeNBT(tag.getCompound(NBTList.INVENTORY));
+        inventory.deserializeNBT(tag.getCompound(SolarNBTList.INVENTORY));
     }
 
     /**
@@ -65,14 +65,14 @@ public abstract class BaseTCBlockEntity extends BaseTankBlockEntity {
      * 从stack中读取inventory信息
      */
     public void setInventory(ItemStack stack) {
-        inventory.deserializeNBT(stack.getOrCreateTag().getCompound(NBTList.INVENTORY));
+        inventory.deserializeNBT(stack.getOrCreateTag().getCompound(SolarNBTList.INVENTORY));
     }
 
     /**
      * 从tag中读取inventory信息
      */
     public void setInventory(CompoundTag tag) {
-        inventory.deserializeNBT(tag.getCompound(NBTList.INVENTORY));
+        inventory.deserializeNBT(tag.getCompound(SolarNBTList.INVENTORY));
     }
 
     /**
