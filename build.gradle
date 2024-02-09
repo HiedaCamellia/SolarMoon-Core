@@ -84,10 +84,6 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/SolarMoonQAQ/SolarMoon-Core")
-            credentials {
-                username = "SolarMoonQAQ"
-                password = "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"
-            }
         }
     }
     publications {
