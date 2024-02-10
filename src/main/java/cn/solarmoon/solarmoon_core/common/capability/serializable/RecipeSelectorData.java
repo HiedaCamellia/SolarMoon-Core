@@ -49,6 +49,7 @@ public class RecipeSelectorData implements INBTSerializable<CompoundTag> {
 
         JsonArray jsonArrayIndexOfRecipe = new JsonArray();
         for (var entry : indexOfRecipe.entrySet()) {
+            if (entry.getKey() == null) continue;
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", entry.getKey().toString());
             jsonObject.addProperty("value", entry.getValue());
@@ -58,6 +59,7 @@ public class RecipeSelectorData implements INBTSerializable<CompoundTag> {
 
         JsonArray jsonArrayRecipeIndexOfRecipe = new JsonArray();
         for (var entry : recipeIndexOfRecipe.entrySet()) {
+            if (entry.getKey() == null) continue;
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", entry.getKey().toString());
             jsonObject.addProperty("value", entry.getValue());

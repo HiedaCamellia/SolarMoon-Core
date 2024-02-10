@@ -71,10 +71,6 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-
-}
-
-dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 }
@@ -83,9 +79,13 @@ repositories {
     mavenCentral()
 }
 
-apply from: rootProject.file('publishing.gradle')
+if (rootProject.file('publishing.gradle').exists()) {
+    apply from: rootProject.file('publishing.gradle')
+}
 
-apply from: rootProject.file('repositories.gradle')
+if (rootProject.file('repositories.gradle').exists()) {
+    apply from: rootProject.file('repositories.gradle')
+}
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
