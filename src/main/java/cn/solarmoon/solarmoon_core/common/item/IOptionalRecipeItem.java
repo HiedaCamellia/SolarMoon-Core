@@ -20,9 +20,9 @@ import java.util.List;
 /**
  * 手持实现该接口物品时，对目视方块进行配方匹配检测。<br/>
  * 一般情况下为了实现完整效果，需要对具体物品搭建桥梁：<br/>
- * boolean recipeMatches<br/>
- * List<T> matchingRecipes<br/>
- * List<T> optionalRecipes<br/>
+ * recipeMatches<br/>
+ * matchingRecipes<br/>
+ * optionalRecipes<br/>
  */
 public interface IOptionalRecipeItem<T extends Recipe<RecipeWrapper>> {
 
