@@ -17,21 +17,21 @@ public class FluidUtil {
      * 获取物品容器内的fluidTank
      */
     public static IFluidHandlerItem getTank(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, null).orElse(null);
+        return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
     }
 
     /**
      * 获取方块实体容器内的fluidTank
      */
     public static IFluidHandler getTank(BlockEntity blockEntity) {
-        return blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, null).orElse(null);
+        return blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
     }
 
     /**
      * 获取物品容器内的fluidStack
      */
     public static FluidStack getFluidStack(ItemStack stack) {
-        IFluidHandlerItem tankStack = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, null).orElse(null);
+        IFluidHandlerItem tankStack = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
         return tankStack.getFluidInTank(0);
     }
 
@@ -39,7 +39,7 @@ public class FluidUtil {
      * 获取方块实体容器内的fluidStack
      */
     public static FluidStack getFluidStack(BlockEntity blockEntity) {
-        IFluidHandler tank = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, null).orElse(null);
+        IFluidHandler tank = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
         return tank.getFluidInTank(0);
     }
 
@@ -67,9 +67,11 @@ public class FluidUtil {
     public static void setTank(ItemStack stack, BlockEntity blockEntity) {
         //把blockEntity的tank注入item
         IFluidHandlerItem tankStack = getTank(stack);
-        FluidStack fluidStack = getFluidStack(blockEntity);
-        tankStack.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
-        tankStack.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+        if (tankStack != null) {
+            FluidStack fluidStack = getFluidStack(blockEntity);
+            tankStack.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
+            tankStack.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+        }
     }
 
     /**

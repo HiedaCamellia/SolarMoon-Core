@@ -1,97 +1,37 @@
 package cn.solarmoon.solarmoon_core.common.entity_block.entity;
 
-import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 
 /**
  * 基本的储罐类抽象实体<br/>
- * 没有多余的功能，只是添加一个储罐<br/>
- * 可以与大部分液体类工具/方块交互
+ * 省去了设置tank的麻烦<br/>
+ * 可以不用但不能没有
  */
-public abstract class BaseTankBlockEntity extends BlockEntity {
+public abstract class BaseTankBlockEntity extends BlockEntity implements ITankBlockEntity {
 
-    public int ticks;
-    public float lastScale;
+    private final FluidTank tank;
 
-    public int time;
-    public int recipeTime;
+    private final int maxCapacity;
 
-    public FluidTank tank;
-
-    public int maxCapacity;
-
-    public BaseTankBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int maxCapacity) {
+    public BaseTankBlockEntity(BlockEntityType<?> type, int maxCapacity, BlockPos pos, BlockState state) {
         super(type, pos, state);
         this.maxCapacity = maxCapacity;
         this.tank = new FluidTank(maxCapacity);
     }
 
-    /**
-     * 设置forge提供的储罐系统
-     * @param cap The capability to check
-     * @param side The Side to check from,
-     *   <strong>CAN BE NULL</strong>. Null is defined to represent 'internal' or 'self'
-     */
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return LazyOptional.of(() -> tank).cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-    /**
-     * 一个强制设置储罐内容物的方法
-     */
-    public void setFluid(FluidStack fluidStack) {
-        tank.setFluid(fluidStack);
-    }
-
-    /**
-     * 一个根据tag强制设置储罐内容物的方法
-     */
-    public void setFluid(CompoundTag tag) {
-        tank.readFromNBT(tag.getCompound(SolarNBTList.FLUID));
-    }
-
-    /**
-     * 配合setChanged调用，用以同步各类信息（主要是tag信息）
-     * @param tag 读取save的tag
-     */
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        CompoundTag fluid = tag.getCompound(SolarNBTList.FLUID);
-        tank.readFromNBT(fluid);
-    }
-
-    /**
-     * 配合setChanged调用，用以同步各类信息（主要是tag信息）
-     * @param tag 自定义以输入load
-     */
-    @Override
-    public void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        CompoundTag fluid = new CompoundTag();
-        tank.writeToNBT(fluid);
-        tag.put(SolarNBTList.FLUID, fluid);
+    public FluidTank getTank() {
+        return tank;
     }
 
     @Override
-    public void setChanged() {
-        super.setChanged();
-        ticks = 0;
+    public int getMaxCapacity() {
+        return maxCapacity;
     }
 
 }

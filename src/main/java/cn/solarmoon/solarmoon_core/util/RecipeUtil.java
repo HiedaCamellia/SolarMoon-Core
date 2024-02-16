@@ -9,14 +9,12 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.Objects;
 
 public class RecipeUtil {
 
@@ -25,12 +23,7 @@ public class RecipeUtil {
      * 不建议使用客户端侧level
      */
     public static  <T extends Recipe<RecipeWrapper>> List<T> getRecipes(Level level, RecipeType<T> t) {
-        List<T> allRecipes;
-        RecipeManager recipeManager = level.getRecipeManager();
-        allRecipes = recipeManager.getAllRecipesFor(t).stream()
-                .filter(Objects::nonNull)
-                .toList();
-        return allRecipes;
+        return level.getRecipeManager().getAllRecipesFor(t);
     }
 
     public record ChanceResult(ItemStack stack, float chance) {

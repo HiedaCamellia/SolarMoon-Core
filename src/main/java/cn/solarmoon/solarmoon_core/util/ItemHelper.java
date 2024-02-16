@@ -15,6 +15,7 @@ public class ItemHelper {
      * 获取双手上的特定物品，优先判断主手。
      * 需先检查player.isHolding，否则可能返回null
      */
+    @SuppressWarnings("unchecked")
     public <T extends Item> T getItemInHand(T item) {
         if (player.isHolding(item)) {
             if (player.getMainHandItem().is(item)) {

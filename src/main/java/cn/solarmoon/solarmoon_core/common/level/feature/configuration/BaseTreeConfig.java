@@ -2,6 +2,7 @@ package cn.solarmoon.solarmoon_core.common.level.feature.configuration;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
@@ -29,4 +30,9 @@ public class BaseTreeConfig implements FeatureConfiguration {
                     FancyTrunkPlacer.CODEC
                             .fieldOf("trunk_placer").forGetter((config) -> config.trunkPlacer))
             .apply(builder, BaseTreeConfig::new));
+
+    public static BaseTreeConfig createBaseTree(Block log, Block leaves, int baseHeight, int heightRandomA) {
+        return new BaseTreeConfig(BlockStateProvider.simple(log), BlockStateProvider.simple(leaves), new FancyTrunkPlacer(baseHeight, heightRandomA, 0));
+    }
+
 }

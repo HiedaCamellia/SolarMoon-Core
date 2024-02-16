@@ -1,6 +1,5 @@
 java {
     withSourcesJar()
-    withJavadocJar()
 }
 
 javadoc {
@@ -25,7 +24,6 @@ publishing {
             version = "${minecraft_version}-${mod_version}"
             artifact jar
             artifact sourcesJar
-            artifact javadocJar
             pom {
                 name = "${mod_name}"
                 url = "https://github.com/SolarMoonQAQ/SolarMoon-Core"

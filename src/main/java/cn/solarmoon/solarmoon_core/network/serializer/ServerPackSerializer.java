@@ -1,8 +1,7 @@
 package cn.solarmoon.solarmoon_core.network.serializer;
 
 
-import cn.solarmoon.solarmoon_core.network.NetworkPack;
-import cn.solarmoon.solarmoon_core.registry.Packs;
+import cn.solarmoon.solarmoon_core.registry.object.NetPackEntry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +28,7 @@ public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack
 
     public static void handle(ServerPackSerializer packet, Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
-        for (NetworkPack pack : Packs.get()) {
+        for (NetPackEntry pack : NetPackEntry.ENTRIES) {
             for (var handler : pack.serverPackHandlers) {
                 context.enqueueWork(() -> handler.doHandle(packet, context));
             }

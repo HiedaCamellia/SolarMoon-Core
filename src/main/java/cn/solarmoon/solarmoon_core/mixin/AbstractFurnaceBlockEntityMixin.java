@@ -1,7 +1,7 @@
 package cn.solarmoon.solarmoon_core.mixin;
 
 
-import cn.solarmoon.solarmoon_core.registry.Packs;
+import cn.solarmoon.solarmoon_core.registry.SolarPacks;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +28,6 @@ public class AbstractFurnaceBlockEntityMixin {
             ItemStack stack = blockEntity.getItem(i);
             stacks.add(stack);
         }
-        Packs.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_FURNACE, pos, stacks);
+        SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_FURNACE, pos, stacks);
     }
 }

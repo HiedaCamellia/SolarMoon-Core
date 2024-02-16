@@ -9,18 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 基本的联动类，有加载判别和便捷的内容注册~
+ * 基本的联动类，有加载判别和便捷的内容注册~<br/>
+ * 目前支持快速注册非注册类事件和原版类
  */
 public abstract class BaseCompat {
 
-    protected final String modId;
-    protected final List<Object> modEvents;
-    protected final List<DeferredRegister<?>> modObjects;
+    private final String modId;
+    private final List<Object> modEvents;
+    private final List<DeferredRegister<?>> modObjects;
 
     public BaseCompat(String modId) {
         this.modId = modId;
         this.modEvents = new ArrayList<>();
         this.modObjects = new ArrayList<>();
+    }
+
+    public void add(Object object) {
+        modEvents.add(object);
+    }
+
+    public void add(DeferredRegister<?> deferredRegister) {
+        modObjects.add(deferredRegister);
     }
 
     public String getModId() {

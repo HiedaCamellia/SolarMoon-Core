@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.network.serializer;
 
-import cn.solarmoon.solarmoon_core.registry.Packs;
+import cn.solarmoon.solarmoon_core.registry.object.NetPackEntry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -49,7 +49,7 @@ public record ClientPackSerializer(String message, BlockPos pos, List<ItemStack>
 
     public static void handle(ClientPackSerializer packet, Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
-        for (var pack : Packs.get()) {
+        for (var pack : NetPackEntry.ENTRIES) {
             for (var handlers : pack.clientPackHandlers) {
                 context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handlers.doHandle(packet)));
             }

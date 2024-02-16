@@ -2,7 +2,7 @@ package cn.solarmoon.solarmoon_core.common.capability;
 
 
 import cn.solarmoon.solarmoon_core.common.capability.serializable.RecipeSelectorData;
-import cn.solarmoon.solarmoon_core.registry.Capabilities;
+import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -38,7 +38,7 @@ public class PlayerData implements ICapabilitySerializable<CompoundTag>, IPlayer
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == Capabilities.PLAYER_DATA) {
+        if (cap == SolarCapabilities.PLAYER_DATA) {
             return playerData.cast();
         }
         return LazyOptional.empty();

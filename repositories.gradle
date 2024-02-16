@@ -1,0 +1,47 @@
+dependencies {
+    //jei
+    compileOnly(fg.deobf("mezz.jei:jei-1.20.1-common-api:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-1.20.1-forge-api:${jei_version}"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-1.20.1-forge:${jei_version}"))
+}
+
+repositories {
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    maven {
+        url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        url = "https://maven.jaackson.me"
+    }
+    maven {
+        name "KosmX's maven"
+        url 'https://maven.kosmx.dev/'
+    }
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = 'tterrag maven'
+        url = 'https://maven.tterrag.com/'
+    }
+    maven {
+        url "https://api.modrinth.com/maven"
+    }
+    maven {
+        url "https://maven.ryanliptak.com/"
+    }
+    flatDir {
+        dir 'lib'
+    }
+}

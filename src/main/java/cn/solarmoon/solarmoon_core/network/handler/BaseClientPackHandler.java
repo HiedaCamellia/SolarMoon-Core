@@ -2,11 +2,10 @@ package cn.solarmoon.solarmoon_core.network.handler;
 
 
 import cn.solarmoon.solarmoon_core.common.capability.serializable.RecipeSelectorData;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.BaseContainerBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.BaseTCBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.BaseTankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.entity_block.entity.IContainerBlockEntity;
+import cn.solarmoon.solarmoon_core.common.entity_block.entity.ITankBlockEntity;
 import cn.solarmoon.solarmoon_core.network.IClientPackHandler;
-import cn.solarmoon.solarmoon_core.registry.Capabilities;
+import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.util.CapabilityUtil;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,32 +34,25 @@ public class BaseClientPackHandler implements IClientPackHandler {
                     }
                 }
             }
-            case SolarNETList.SYNC_C_BLOCK -> {
+            case SolarNETList.SYNC_IC_BLOCK -> {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
-                if(blockEntity instanceof BaseContainerBlockEntity c) {
-                    c.setInventory(tag);
+                if(blockEntity instanceof IContainerBlockEntity containerTile) {
+                    containerTile.setInventory(tag);
                 }
             }
-            case SolarNETList.SYNC_T_BLOCK -> {
+            case SolarNETList.SYNC_IT_BLOCK -> {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
-                if(blockEntity instanceof BaseTankBlockEntity tankBlockEntity) {
-                    tankBlockEntity.setFluid(tag);
-                }
-            }
-            case SolarNETList.SYNC_TC_BLOCK -> {
-                BlockEntity blockEntity = level.getBlockEntity(pos);
-                if(blockEntity instanceof BaseTCBlockEntity tc) {
-                    tc.setFluid(tag);
-                    tc.setInventory(tag);
+                if(blockEntity instanceof ITankBlockEntity tankTile) {
+                    tankTile.setFluid(tag);
                 }
             }
             case SolarNETList.SYNC_INDEX -> {
-                RecipeSelectorData selector = CapabilityUtil.getData(player, Capabilities.PLAYER_DATA).getRecipeSelectorData();
+                RecipeSelectorData selector = CapabilityUtil.getData(player, SolarCapabilities.PLAYER_DATA).getRecipeSelectorData();
                 RecipeType<?> recipeType = ForgeRegistries.RECIPE_TYPES.getValue(new ResourceLocation(string));
                 selector.setIndex((int) f, recipeType);
             }
             case SolarNETList.SYNC_RECIPE_INDEX -> {
-                RecipeSelectorData selector = CapabilityUtil.getData(player, Capabilities.PLAYER_DATA).getRecipeSelectorData();
+                RecipeSelectorData selector = CapabilityUtil.getData(player, SolarCapabilities.PLAYER_DATA).getRecipeSelectorData();
                 RecipeType<?> recipeType = ForgeRegistries.RECIPE_TYPES.getValue(new ResourceLocation(string));
                 selector.setRecipeIndex((int) f, recipeType);
             }
