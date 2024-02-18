@@ -4,7 +4,7 @@ import cn.solarmoon.solarmoon_core.network.IClientPackHandler;
 import cn.solarmoon.solarmoon_core.network.IServerPackHandler;
 import cn.solarmoon.solarmoon_core.network.serializer.ClientPackSerializer;
 import cn.solarmoon.solarmoon_core.network.serializer.ServerPackSerializer;
-import cn.solarmoon.solarmoon_core.util.NetworkSender;
+import cn.solarmoon.solarmoon_core.network.NetworkSender;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;

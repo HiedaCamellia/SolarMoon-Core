@@ -1,7 +1,7 @@
 package cn.solarmoon.solarmoon_core.common.block.entity_block;
 
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.BaseTankBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.ITankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.BaseTankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

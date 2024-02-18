@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.common.entity_block.entity.iutor;
+package cn.solarmoon.solarmoon_core.common.block_entity.iutor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.crafting.Recipe;
@@ -6,9 +6,10 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 /**
- * 标识类接口，标识该方块实体是具有含时配方的，且能获取配方所需时间和当前进行到的时间（自己实现）
+ * 标识该方块实体是具有含时配方的，且能获取配方所需时间和当前进行到的时间（自己实现）<br/>
+ * 能够自动保存time，就如同熔炉一样
  */
-public interface ITimeRecipeBlockEntity<R extends Recipe<RecipeWrapper>> {
+public interface ITimeRecipeBlockEntity<R extends Recipe<?>> {
 
     int getTime();
 

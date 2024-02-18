@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.util;
 
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.IContainerBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;

@@ -21,7 +21,7 @@ publishing {
         register('mavenJava', MavenPublication) {
             groupId = "${mod_group_id}"
             artifactId = "${artifact_id}-${mod_loader}"
-            version = "${minecraft_version}-${mod_version}"
+            version = "${minecraft_version}-${solarmoon_core_version}"
             artifact jar
             artifact sourcesJar
             pom {

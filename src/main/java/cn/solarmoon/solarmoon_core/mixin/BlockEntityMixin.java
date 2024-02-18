@@ -1,8 +1,9 @@
 package cn.solarmoon.solarmoon_core.mixin;
 
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.IContainerBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.ITankBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.iutor.IBlockEntityAnimateTicker;
+import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IBlockEntityAnimateTicker;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.ITimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -36,7 +37,9 @@ public class BlockEntityMixin extends CapabilityProvider<BlockEntity> {
             CompoundTag fluid = new CompoundTag();
             tankTile.getTank().writeToNBT(fluid);
             nbt.put(SolarNBTList.FLUID, fluid);
-            blockEntity.setChanged();
+        }
+        if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
+            nbt.putInt(SolarNBTList.TIME, timeTile.getTime());
         }
     }
 
@@ -47,6 +50,9 @@ public class BlockEntityMixin extends CapabilityProvider<BlockEntity> {
         }
         if (blockEntity instanceof ITankBlockEntity tankTile) {
             tankTile.getTank().readFromNBT(nbt.getCompound(SolarNBTList.FLUID));
+        }
+        if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
+            timeTile.setTime(nbt.getInt(SolarNBTList.TIME));
         }
     }
 

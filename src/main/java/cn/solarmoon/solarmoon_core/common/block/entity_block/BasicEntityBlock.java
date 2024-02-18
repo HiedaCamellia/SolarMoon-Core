@@ -1,8 +1,9 @@
 package cn.solarmoon.solarmoon_core.common.block.entity_block;
 
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.IContainerBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.ITankBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.iutor.IBlockEntityAnimateTicker;
+import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IBlockEntityAnimateTicker;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.ITimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.registry.SolarPacks;
 import cn.solarmoon.solarmoon_core.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.util.FluidUtil;
@@ -16,7 +17,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -40,7 +40,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -180,7 +179,11 @@ public abstract class BasicEntityBlock extends BaseEntityBlock implements Simple
             nbt.put(SolarNBTList.FLUID, tankTile.getTank().writeToNBT(new CompoundTag()));
             SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IT_BLOCK, pos, nbt);
         }
-
+        //配方时间同步
+        if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
+            nbt.putInt(SolarNBTList.TIME, timeTile.getTime());
+            SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IRT_BLOCK, pos, nbt);
+        }
         //实用接口动画ticker的实现
         if (blockEntity instanceof IBlockEntityAnimateTicker ticker) {
             int ticks = ticker.getTicks();

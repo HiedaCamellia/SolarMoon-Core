@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.common.entity_block.entity.iutor;
+package cn.solarmoon.solarmoon_core.common.block_entity.iutor;
 
 /**
  * 一般用于动画渲染的接口<br/>

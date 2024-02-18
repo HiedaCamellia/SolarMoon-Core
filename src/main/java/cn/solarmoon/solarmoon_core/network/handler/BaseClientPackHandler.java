@@ -2,11 +2,13 @@ package cn.solarmoon.solarmoon_core.network.handler;
 
 
 import cn.solarmoon.solarmoon_core.common.capability.serializable.RecipeSelectorData;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.IContainerBlockEntity;
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.ITankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.ITimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.network.IClientPackHandler;
 import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.util.CapabilityUtil;
+import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -24,7 +26,7 @@ import java.util.List;
 public class BaseClientPackHandler implements IClientPackHandler {
 
     @Override
-    public void handle(LocalPlayer player, ClientLevel level, BlockPos pos, CompoundTag tag, float f, String string, List<ItemStack> stacks, String message) {
+    public void handle(LocalPlayer player, ClientLevel level, BlockPos pos, ItemStack stack, CompoundTag tag, float f, int[] ints, String string, List<ItemStack> stacks, String message) {
         switch (message) {
             case SolarNETList.SYNC_FURNACE -> {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -44,6 +46,12 @@ public class BaseClientPackHandler implements IClientPackHandler {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
                 if(blockEntity instanceof ITankBlockEntity tankTile) {
                     tankTile.setFluid(tag);
+                }
+            }
+            case SolarNETList.SYNC_IRT_BLOCK -> {
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
+                    timeTile.setTime(tag.getInt(SolarNBTList.TIME));
                 }
             }
             case SolarNETList.SYNC_INDEX -> {

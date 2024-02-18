@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.common.entity_block.entity;
+package cn.solarmoon.solarmoon_core.common.block_entity;
 
 
 import net.minecraft.core.BlockPos;

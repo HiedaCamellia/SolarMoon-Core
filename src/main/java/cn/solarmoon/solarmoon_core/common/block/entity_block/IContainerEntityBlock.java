@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.common.block.entity_block;
 
-import cn.solarmoon.solarmoon_core.common.entity_block.entity.IContainerBlockEntity;
+import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.util.LevelSummonUtil;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
