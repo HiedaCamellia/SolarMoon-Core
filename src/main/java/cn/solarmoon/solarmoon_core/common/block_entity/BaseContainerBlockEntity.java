@@ -8,7 +8,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 
 /**
- * 基础的容器类，省去了设置inventory的功夫，可以不用但不能没有！
+ * 基础的容器类，省去了设置inventory的功夫，可以不用但不能没有！<br/>
+ * 如果要专门修改inventory，那就不用继承这个，直接用接口
  */
 public abstract class BaseContainerBlockEntity extends BlockEntity implements IContainerBlockEntity {
 

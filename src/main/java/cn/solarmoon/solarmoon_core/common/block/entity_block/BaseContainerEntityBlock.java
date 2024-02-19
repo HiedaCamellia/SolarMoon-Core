@@ -11,7 +11,7 @@ import net.minecraft.world.phys.BlockHitResult;
 /**
  * 便捷的基本容器的实体方块<br/>
  * 有很多和I*BlockEntity对应的实用方法<br/>
- * 默认情况下会自动同步客户端各种容器的信息、设置红石信号逻辑、-中键物品、打落物品会存有给类容器信息、放置方块会读取stack的信息设置各类容器信息
+ * 当然这个类只属于标识或是过渡类，本身方法都是从接口和basic中来的，因此不是必须继承
  */
 public abstract class BaseContainerEntityBlock extends BasicEntityBlock implements IContainerEntityBlock {
 

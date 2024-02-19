@@ -57,7 +57,7 @@ public interface IContainerBlockEntity {
         int maxSlots = getInventory().getSlots();
         ItemStack stack = ItemStack.EMPTY;
         for (int i = 0; i < maxSlots; i++) {
-            stack = getInventory().extractItem(maxSlots - i - 1, Integer.MAX_VALUE, false);
+            stack = getInventory().extractItem(maxSlots - i - 1, 64, false);
             if (!stack.isEmpty()) break;
         }
         return stack;

@@ -4,7 +4,7 @@ import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IBlockEntityAnimateTicker;
 import cn.solarmoon.solarmoon_core.common.block_entity.iutor.ITimeRecipeBlockEntity;
-import cn.solarmoon.solarmoon_core.registry.SolarPacks;
+import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
 import cn.solarmoon.solarmoon_core.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.util.FluidUtil;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
@@ -45,6 +45,7 @@ import java.util.List;
 /**
  * 有基本的含水、朝向、设置对应方块实体功能的实体方块<br/>
  * 以及一个ticker<br/>
+ * 默认情况下会自动同步客户端各种容器的信息、设置红石信号逻辑、-中键物品、打落物品会存有给类容器信息、放置方块会读取stack的信息设置各类容器信息<br/>
  * 还是 万 物 本 源
  */
 public abstract class BasicEntityBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
@@ -173,16 +174,16 @@ public abstract class BasicEntityBlock extends BaseEntityBlock implements Simple
         CompoundTag nbt = new CompoundTag();
         if (blockEntity instanceof IContainerBlockEntity containerTile) {
             nbt.put(SolarNBTList.INVENTORY, containerTile.getInventory().serializeNBT());
-            SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IC_BLOCK, pos, nbt);
+            SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IC_BLOCK, pos, nbt);
         }
         if (blockEntity instanceof ITankBlockEntity tankTile) {
             nbt.put(SolarNBTList.FLUID, tankTile.getTank().writeToNBT(new CompoundTag()));
-            SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IT_BLOCK, pos, nbt);
+            SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IT_BLOCK, pos, nbt);
         }
         //配方时间同步
         if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
             nbt.putInt(SolarNBTList.TIME, timeTile.getTime());
-            SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IRT_BLOCK, pos, nbt);
+            SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IRT_BLOCK, pos, nbt);
         }
         //实用接口动画ticker的实现
         if (blockEntity instanceof IBlockEntityAnimateTicker ticker) {

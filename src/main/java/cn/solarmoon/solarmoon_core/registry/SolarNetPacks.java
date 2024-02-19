@@ -5,7 +5,7 @@ import cn.solarmoon.solarmoon_core.network.handler.BaseClientPackHandler;
 import cn.solarmoon.solarmoon_core.registry.core.IRegister;
 import cn.solarmoon.solarmoon_core.registry.object.NetPackEntry;
 
-public enum SolarPacks implements IRegister {
+public enum SolarNetPacks implements IRegister {
     INSTANCE;
 
     public static final NetPackEntry BASE_CLIENT_PACK = SolarMoonCore.REGISTRY.netPack()

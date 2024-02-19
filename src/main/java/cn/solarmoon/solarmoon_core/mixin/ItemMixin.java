@@ -6,7 +6,7 @@ import cn.solarmoon.solarmoon_core.common.capability.serializable.RecipeSelector
 import cn.solarmoon.solarmoon_core.common.item.IOptionalRecipeItem;
 import cn.solarmoon.solarmoon_core.common.item.ITankItem;
 import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
-import cn.solarmoon.solarmoon_core.registry.SolarPacks;
+import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
 import cn.solarmoon.solarmoon_core.util.CapabilityUtil;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -73,8 +73,8 @@ public abstract class ItemMixin implements IForgeItem {
                 //客户端同步配方选择序列数
                 if (player instanceof ServerPlayer sp) {
                     RecipeSelectorData selector = CapabilityUtil.getData(sp, SolarCapabilities.PLAYER_DATA).getRecipeSelectorData();
-                    SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_INDEX, selector.getIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
-                    SolarPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_RECIPE_INDEX, selector.getRecipeIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
+                    SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_INDEX, selector.getIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
+                    SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_RECIPE_INDEX, selector.getRecipeIndex(orStack.getRecipeType()), orStack.getRecipeType().toString());
                 }
 
             }

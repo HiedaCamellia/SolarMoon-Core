@@ -35,7 +35,7 @@ public class RecipeEntry<R extends Recipe<?>> {
         return this;
     }
 
-    public <T extends Recipe<?>> RecipeType<T> getRecipeType() {
+    private  <T extends Recipe<?>> RecipeType<T> getRecipeType() {
         return new RecipeType<>()
         {
             public String toString() {

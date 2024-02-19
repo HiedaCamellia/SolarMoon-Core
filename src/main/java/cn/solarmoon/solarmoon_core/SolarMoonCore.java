@@ -2,7 +2,7 @@ package cn.solarmoon.solarmoon_core;
 
 import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.registry.SolarConfig;
-import cn.solarmoon.solarmoon_core.registry.SolarPacks;
+import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
 import cn.solarmoon.solarmoon_core.registry.core.ObjectRegistry;
 import cn.solarmoon.solarmoon_core.util.static_utor.Debug;
 import cn.solarmoon.solarmoon_core.util.static_utor.Translator;
@@ -30,7 +30,7 @@ public class SolarMoonCore {
         new SolarCapabilities().register(bus);
         new SolarConfig().register();
 
-        SolarPacks.INSTANCE.register();
+        SolarNetPacks.INSTANCE.register();
 
     }
 
