@@ -20,6 +20,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,27 +45,42 @@ public abstract class BaseJEI implements IModPlugin {
 
     public abstract String getModId();
 
+    /**
+     * 注册新jei配方渲染类型
+     */
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         guiHelper = registry.getJeiHelpers().getGuiHelper();
         register();
         for (JEIBuilder jeiBuilder : jeiBuilders) {
-            registry.addRecipeCategories(jeiBuilder.getRecipeCategory());
+            if (jeiBuilder.getRecipeCategory() != null) {
+                registry.addRecipeCategories(jeiBuilder.getRecipeCategory());
+            }
         }
     }
 
+    /**
+     * 将现有配方绑定jei
+     */
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         for (JEIBuilder jeiBuilder : jeiBuilders) {
-            registration.addRecipes(jeiBuilder.getRecipeType(), jeiBuilder.getClientRecipes());
+            if (jeiBuilder.getRecipeType() != null && jeiBuilder.existRecipeType == null) {
+                registration.addRecipes(jeiBuilder.getRecipeType(), jeiBuilder.getClientRecipes());
+            }
         }
     }
 
+    /**
+     * 为配方绑定物品
+     */
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         for (JEIBuilder jeiBuilder : jeiBuilders) {
             for (ItemStack stack : jeiBuilder.getCatalystStacks()) {
-                registration.addRecipeCatalyst(stack, jeiBuilder.getRecipeType());
+                if (jeiBuilder.getRecipeType() != null) {
+                    registration.addRecipeCatalyst(stack, jeiBuilder.getRecipeType());
+                }
             }
         }
     }
@@ -73,13 +89,11 @@ public abstract class BaseJEI implements IModPlugin {
         jeiBuilders.addAll(Arrays.asList(jeiBuilder));
     }
 
-    public <T extends Recipe<?>> JEIBuilder builder(Class<? extends T> recipeClass) {
-        return new JEIBuilder(recipeClass, getModId(), guiHelper);
+    public JEIBuilder builder() {
+        return new JEIBuilder(getModId(), guiHelper);
     }
 
     public static class JEIBuilder {
-
-        private final Class<? extends Recipe<?>> recipeClass;
 
         private RecipeType<?> recipeType;
         private IRecipeCategory<?> recipeCategory;
@@ -90,11 +104,11 @@ public abstract class BaseJEI implements IModPlugin {
         private final String modId;
         private final IGuiHelper guiHelper;
         private ItemStack iconItem;
+        private RecipeType<?> existRecipeType;
 
         private final List<ItemStack> catalystStacks;
 
-        public <T extends Recipe<?>> JEIBuilder(Class<? extends T> recipeClass, String modId, IGuiHelper guiHelper) {
-            this.recipeClass = recipeClass;
+        public JEIBuilder(String modId, IGuiHelper guiHelper) {
             this.modId = modId;
             this.guiHelper = guiHelper;
             this.catalystStacks = new ArrayList<>();
@@ -125,10 +139,29 @@ public abstract class BaseJEI implements IModPlugin {
         }
 
         /**
-         * 把该配方类型的所有配方与jei绑定
+         * 绑定jei配方独特的界面渲染（实现JEICategory）
+         */
+        public JEIBuilder boundCategory(IRecipeCategory<?> recipeCategory) {
+            this.recipeCategory = recipeCategory;
+            if (recipeCategory instanceof BaseJEICategory<?> jeiCategory) {
+                this.recipeCategory = jeiCategory.setJeiBuilder(this);
+            }
+            return this;
+        }
+
+        /**
+         * 把该配方类型的所有配方与jei绑定，这里输入的并非jei配方类型，具体的创建在build中，区别于同方法的另一个
          */
         public <T extends Recipe<?>> JEIBuilder recipeType(net.minecraft.world.item.crafting.RecipeType<T> recipeType) {
             this.mcRecipeType = recipeType;
+            return this;
+        }
+
+        /**
+         * 直接绑定已有配方类型
+         */
+        public JEIBuilder recipeType(RecipeType<?> recipeType) {
+            this.existRecipeType = recipeType;
             return this;
         }
 
@@ -168,9 +201,9 @@ public abstract class BaseJEI implements IModPlugin {
         }
 
         /**
-         * 最终构建，不是添加配方类型无需构建
+         * 最终构建，不是添加配方类型无需构建（比如绑定已有配方）
          */
-        public JEIBuilder build(String id, IRecipeCategory<?> recipeCategory) {
+        public <T extends Recipe<?>> JEIBuilder build(String id, Class<? extends T> recipeClass) {
             recipeType = RecipeType.create(modId, id, recipeClass);
             if (title == null) {
                 if (iconItem != null) title = iconItem.getHoverName();
@@ -179,13 +212,10 @@ public abstract class BaseJEI implements IModPlugin {
             if (icon == null) {
                 if (!catalystStacks.isEmpty()) icon(catalystStacks.get(0).getItem());
             }
-            if (recipeCategory instanceof BaseJEICategory<?> jeiCategory) {
-                this.recipeCategory = jeiCategory.setJeiBuilder(this);
-            }
-            else this.recipeCategory = recipeCategory;
             return this;
         }
 
+        @Nullable
         public IRecipeCategory<?> getRecipeCategory() {
             return recipeCategory;
         }
@@ -194,7 +224,11 @@ public abstract class BaseJEI implements IModPlugin {
             return catalystStacks;
         }
 
+        @Nullable
         public <T> RecipeType<T> getRecipeType() {
+            if (existRecipeType != null) {
+                return (RecipeType<T>) existRecipeType;
+            }
             return (RecipeType<T>) recipeType;
         }
 
