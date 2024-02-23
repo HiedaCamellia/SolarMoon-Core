@@ -1,6 +1,5 @@
 package cn.solarmoon.solarmoon_core.registry.object;
 
-import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -14,6 +13,7 @@ public class BlockEntry<T extends Block> {
     private String id;
     private Supplier<T> blockSupplier;
     private RegistryObject<T> blockObject;
+    private boolean condition = true;
 
     public BlockEntry(DeferredRegister<Block> blockRegister) {
         this.blockRegister = blockRegister;
@@ -24,6 +24,11 @@ public class BlockEntry<T extends Block> {
         return this;
     }
 
+    public BlockEntry<T> condition(boolean condition) {
+        this.condition = condition;
+        return this;
+    }
+
     public BlockEntry<T> bound(Supplier<T> blockSupplier) {
         this.blockSupplier = blockSupplier;
         return this;
@@ -31,8 +36,9 @@ public class BlockEntry<T extends Block> {
 
     @SuppressWarnings("unchecked")
     public <I extends T> BlockEntry<I> build() {
-        this.blockObject = blockRegister.register(id, blockSupplier);
-        SolarMoonCore.LOGGER.debug("BLOCK NMSL");
+        if (condition) {
+            this.blockObject = blockRegister.register(id, blockSupplier);
+        }
         return (BlockEntry<I>) this;
     }
 

@@ -7,6 +7,7 @@ import cn.solarmoon.solarmoon_core.common.item.IOptionalRecipeItem;
 import cn.solarmoon.solarmoon_core.common.item.ITankItem;
 import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
+import cn.solarmoon.solarmoon_core.registry.object.ItemEntry;
 import cn.solarmoon.solarmoon_core.util.CapabilityUtil;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -40,6 +41,8 @@ public abstract class ItemMixin implements IForgeItem {
     protected static BlockHitResult getPlayerPOVHitResult(Level p_41436_, Player p_41437_, ClipContext.Fluid p_41438_) {
         return null;
     }
+
+    @Shadow public abstract Item asItem();
 
     /**
      * IClientItemExtensions接口实现，获取手中物品渲染器

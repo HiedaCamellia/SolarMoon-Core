@@ -1,9 +1,11 @@
 package cn.solarmoon.solarmoon_core.common.block.crop;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -124,6 +126,21 @@ public abstract class BaseHangingBushCropBlock extends SweetBerryBushBlock {
         } else {
             return InteractionResult.PASS;
         }
+    }
+
+    /**
+     * 注意看，这里因为是悬挂作物，而这里生长条件需要上方亮度大于⑨，悬挂作物上方不为空，因此需要改成检测下方亮度
+     */
+    @Override
+    public void randomTick(BlockState p_222563_, ServerLevel p_222564_, BlockPos p_222565_, RandomSource p_222566_) {
+        int i = p_222563_.getValue(AGE);
+        if (i < 3 && p_222564_.getRawBrightness(p_222565_.below(), 0) >= 9 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(p_222564_, p_222565_, p_222563_, p_222566_.nextInt(5) == 0)) {
+            BlockState blockstate = p_222563_.setValue(AGE, Integer.valueOf(i + 1));
+            p_222564_.setBlock(p_222565_, blockstate, 2);
+            p_222564_.gameEvent(GameEvent.BLOCK_CHANGE, p_222565_, GameEvent.Context.of(blockstate));
+            net.minecraftforge.common.ForgeHooks.onCropsGrowPost(p_222564_, p_222565_, p_222563_);
+        }
+
     }
 
 }
