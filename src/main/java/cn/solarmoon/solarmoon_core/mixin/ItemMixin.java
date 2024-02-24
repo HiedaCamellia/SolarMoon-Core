@@ -1,19 +1,23 @@
 package cn.solarmoon.solarmoon_core.mixin;
 
 
-import cn.solarmoon.solarmoon_core.client.ItemRenderer.ICustomItemRendererProvider;
+import cn.solarmoon.solarmoon_core.client.ItemRenderer.IItemArmorModelProvider;
+import cn.solarmoon.solarmoon_core.client.ItemRenderer.IItemInventoryRendererProvider;
 import cn.solarmoon.solarmoon_core.common.capability.serializable.RecipeSelectorData;
 import cn.solarmoon.solarmoon_core.common.item.IOptionalRecipeItem;
 import cn.solarmoon.solarmoon_core.common.item.ITankItem;
 import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
-import cn.solarmoon.solarmoon_core.registry.object.ItemEntry;
 import cn.solarmoon.solarmoon_core.util.CapabilityUtil;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNETList;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,20 +46,26 @@ public abstract class ItemMixin implements IForgeItem {
         return null;
     }
 
-    @Shadow public abstract Item asItem();
-
     /**
      * IClientItemExtensions接口实现，获取手中物品渲染器
      */
     @Inject(remap = false, method = "initializeClient", at = @At("HEAD"))
     public void initializeClient(Consumer<IClientItemExtensions> consumer, CallbackInfo ci) {
-        if(this instanceof ICustomItemRendererProvider provider) {
+        if (this instanceof IItemInventoryRendererProvider provider) {
             consumer.accept(new IClientItemExtensions() {
                 final NonNullLazy<BlockEntityWithoutLevelRenderer> renderer = NonNullLazy.of(provider.getRendererFactory()::get);
 
                 @Override
                 public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                     return renderer.get();
+                }
+            });
+        }
+        if (this instanceof IItemArmorModelProvider provider) {
+            consumer.accept(new IClientItemExtensions() {
+                @Override
+                public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> original) {
+                    return provider.getHumanoidArmorModel(entity, stack, slot, original);
                 }
             });
         }

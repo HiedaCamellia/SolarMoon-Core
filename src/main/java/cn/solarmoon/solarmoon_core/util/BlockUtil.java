@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static cn.solarmoon.solarmoon_core.common.block.entity_block.BasicEntityBlock.FACING;
+import static cn.solarmoon.solarmoon_core.common.block.IHorizontalFacingBlock.FACING;
 
 public class BlockUtil {
 

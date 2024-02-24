@@ -22,20 +22,13 @@ import java.util.List;
  * 基本的物品栈属性的方块<br/>
  * 默认能够自动堆栈相同物品直到堆栈上限，空手能取走物品
  */
-public abstract class BaseStackBlock extends BaseWaterBlock {
-
-    public static final IntegerProperty STACK = IntegerProperty.create("stack", 1, 64);
+public abstract class BaseStackBlock extends BaseWaterBlock implements IStackBlock {
 
     private final int maxStack;
 
     public BaseStackBlock(int maxStack, Properties properties) {
         super(properties);
         this.maxStack = maxStack;
-        //这里的设置会被覆盖，要改全改
-        this.registerDefaultState(this.getStateDefinition().any()
-                .setValue(STACK, 1)
-                .setValue(FACING, Direction.NORTH)
-                .setValue(WATERLOGGED, false));
     }
 
     /**
@@ -76,13 +69,6 @@ public abstract class BaseStackBlock extends BaseWaterBlock {
             }
         }
         return drops;
-    }
-
-    @Override
-    public List<Property<?>> getProperties() {
-        var properties = super.getProperties();
-        properties.add(STACK);
-        return properties;
     }
 
     public int getMaxStack() {

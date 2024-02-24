@@ -1,8 +1,10 @@
 package cn.solarmoon.solarmoon_core.common.block.crop;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -13,10 +15,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -25,9 +30,11 @@ import javax.annotation.Nullable;
 
 /**
  * 类甜浆果丛类型的作物，区别是成长满100才能摘<br/>
- * 默认可种植方块也和甜浆果丛一致
+ * 可自定义最大成长阶段数
  */
-public abstract class BaseBushCropBlock extends SweetBerryBushBlock {
+public abstract class BaseBushCropBlock extends BushBlock implements BonemealableBlock {
+
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_25;
 
     /**
      * 默认属性
@@ -41,6 +48,44 @@ public abstract class BaseBushCropBlock extends SweetBerryBushBlock {
      */
     public BaseBushCropBlock(Properties properties) {
         super(properties);
+    }
+
+    /**
+     * 所有生长收割都会自动根据maxAge调整到合适的状态<br/>
+     * 甜浆果丛默认为3
+     */
+    public abstract int getMaxAge();
+
+    @Override
+    public boolean isBonemealSuccess(Level p_222558_, RandomSource p_222559_, BlockPos p_222560_, BlockState p_222561_) {
+        return true;
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(AGE) < getMaxAge();
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        int i = state.getValue(AGE);
+        if (i < getMaxAge() && level.getRawBrightness(pos.above(), 0) >= 9 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt(5) == 0)) {
+            BlockState blockstate = state.setValue(AGE, i + 1);
+            level.setBlock(pos, blockstate, 2);
+            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(blockstate));
+            net.minecraftforge.common.ForgeHooks.onCropsGrowPost(level, pos, state);
+        }
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean p_57263_) {
+        return state.getValue(AGE) < getMaxAge();
+    }
+
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        int i = Math.min(getMaxAge(), state.getValue(AGE) + 1);
+        level.setBlock(pos, state.setValue(AGE, i), 2);
     }
 
     /**
@@ -85,21 +130,28 @@ public abstract class BaseBushCropBlock extends SweetBerryBushBlock {
      * 直接抄的甜浆果丛
      * 区别是需要age到顶才能摘
      */
+    @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         int i = state.getValue(AGE);
-        boolean flag = i == 3;
+        boolean flag = i == getMaxAge();
         if (!flag && player.getItemInHand(hand).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
-        } else if (i > 2) {
+        } else if (i > getMaxAge() - 1) {
             popResource(level, pos, harvestResults(level, flag));
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
-            BlockState blockstate = state.setValue(AGE, 1);
+            BlockState blockstate = state.setValue(AGE, getMaxAge() - 2);
             level.setBlock(pos, blockstate, 2);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockstate));
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             return InteractionResult.PASS;
         }
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(AGE);
     }
 
 }

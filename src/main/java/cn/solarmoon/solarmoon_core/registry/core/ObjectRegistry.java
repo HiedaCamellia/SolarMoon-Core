@@ -157,8 +157,12 @@ public class ObjectRegistry {
         return new NetPackEntry(modId);
     }
 
-    public CreativeTabEntry creativeTabEntry() {
+    public CreativeTabEntry creativeTab() {
         return new CreativeTabEntry(creativeTabRegister);
+    }
+
+    public LayerEntry layer() {
+        return new LayerEntry(modId);
     }
 
 }

@@ -1,11 +1,9 @@
 package cn.solarmoon.solarmoon_core.registry.object;
 
-import cn.solarmoon.solarmoon_core.client.ItemRenderer.BaseItemRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class ItemEntry<I extends Item> {
