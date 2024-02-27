@@ -23,18 +23,18 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * 类甜浆果丛类型的作物，区别是成长满100才能摘<br/>
  * 可自定义最大成长阶段数
  */
-public abstract class BaseBushCropBlock extends BushBlock implements BonemealableBlock {
-
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_25;
+public abstract class BaseBushCropBlock extends BushBlock implements BonemealableBlock, INoLimitAgeBlock {
 
     /**
      * 默认属性
@@ -109,14 +109,15 @@ public abstract class BaseBushCropBlock extends BushBlock implements Bonemealabl
     /**
      * 设置收获产物
      * 默认产率和甜浆果丛一致（2-3个）
-     * @param flag 为true则基础产物增加1个，原版甜浆果丛也是此逻辑（66%生长时会少摘一个，但这里基本都为true，因为需要100生长度才能摘）
+     * @param level 可为null，为null时会取消随机生成，使得产物固定为0个，配合后面的boolean可以控制为1个
+     * @param oneMoreBaseProduct 为true则基础产物增加1个，原版甜浆果丛也是此逻辑（66%生长时会少摘一个，但这里基本都为true，因为需要100生长度才能摘）
      */
-    public ItemStack harvestResults(@Nullable Level level, boolean flag) {
+    public ItemStack harvestResults(@Nullable Level level, boolean oneMoreBaseProduct) {
         int j = 0;
         if (level != null) {
             j = 1 + level.random.nextInt(2);
         }
-        return new ItemStack(getHarvestItem(), j + (flag ? 1 : 0));
+        return new ItemStack(getHarvestItem(), j + (oneMoreBaseProduct ? 1 : 0));
     }
 
     /**
@@ -148,10 +149,16 @@ public abstract class BaseBushCropBlock extends BushBlock implements Bonemealabl
         }
     }
 
+    /**
+     * 成长度拉满时，也能掉落一个产物
+     */
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(AGE);
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        List<ItemStack> stacks = super.getDrops(state, builder);
+        if (state.getValue(AGE) == getMaxAge()) {
+            stacks.add(harvestResults(null, true));
+        }
+        return stacks;
     }
 
 }

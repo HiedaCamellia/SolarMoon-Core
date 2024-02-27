@@ -4,6 +4,7 @@ import cn.solarmoon.solarmoon_core.common.block.IHorizontalFacingBlock;
 import cn.solarmoon.solarmoon_core.common.block.ILitBlock;
 import cn.solarmoon.solarmoon_core.common.block.IStackBlock;
 import cn.solarmoon.solarmoon_core.common.block.IWaterLoggedBlock;
+import cn.solarmoon.solarmoon_core.common.block.crop.INoLimitAgeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -50,6 +51,9 @@ public abstract class BlockMixin extends BlockBehaviour {
         if (block instanceof ILitBlock litBlock) {
             state = state.setValue(litBlock.LIT, false);
         }
+        if (block instanceof INoLimitAgeBlock nlAgeBlock) {
+            state = state.setValue(nlAgeBlock.AGE, 0);
+        }
         this.defaultBlockState = state;
     }
 
@@ -66,6 +70,9 @@ public abstract class BlockMixin extends BlockBehaviour {
         }
         if (block instanceof ILitBlock litBlock) {
             builder.add(litBlock.LIT);
+        }
+        if (block instanceof INoLimitAgeBlock nlAgeBlock) {
+            builder.add(nlAgeBlock.AGE);
         }
     }
 

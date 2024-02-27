@@ -16,32 +16,31 @@ public interface IContainerEntityBlock {
      * 单独放入物品
      * @return 成功返回true
      */
-    default boolean putItem(BlockEntity blockEntity, Player player, InteractionHand hand) {
+    default boolean putItem(BlockEntity blockEntity, Player player, InteractionHand hand, int count) {
         if (blockEntity instanceof IContainerBlockEntity c) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (!heldItem.isEmpty()) {
-                ItemStack result = c.insertItem(heldItem);
-                if (player.isCreative()) {
-                    result = heldItem;
-                }
-                player.setItemInHand(hand, result);
-                return !result.equals(heldItem) || player.isCreative();
+                ItemStack simulativeItem = heldItem.copyWithCount(count);
+                ItemStack result = c.insertItem(simulativeItem);
+                int countToShrink = count - result.getCount();
+                if (!player.isCreative()) heldItem.shrink(countToShrink);
+                return !result.equals(simulativeItem);
             }
         }
         return false;
     }
 
     /**
-     * 单独拿取物品
+     * 单独拿取物品（只适用空手拿取）
      * @return 成功返回true
      */
-    default boolean takeItem(BlockEntity blockEntity, Player player, InteractionHand hand) {
+    default boolean takeItem(BlockEntity blockEntity, Player player, InteractionHand hand, int count) {
         if (blockEntity instanceof IContainerBlockEntity c) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.isEmpty() && !c.getStacks().isEmpty()) {
-                ItemStack result = c.extractItem();
+                ItemStack result = c.extractItem(count);
                 if (!player.isCreative()) LevelSummonUtil.addItemToInventory(player, result);
-                return !result.equals(heldItem);
+                return true;
             }
         }
         return false;
@@ -53,9 +52,9 @@ public interface IContainerEntityBlock {
      * <b>别忘了setChanged！</b>
      * @return 无所谓装取，只要容器交互成功就返回true
      */
-    default boolean storage(BlockEntity blockEntity, Player player, InteractionHand hand) {
-        if (putItem(blockEntity, player, hand)) return true;
-        return takeItem(blockEntity, player, hand);
+    default boolean storage(BlockEntity blockEntity, Player player, InteractionHand hand, int putCount, int takeCount) {
+        if (putItem(blockEntity, player, hand, putCount)) return true;
+        return takeItem(blockEntity, player, hand, takeCount);
     }
 
 }

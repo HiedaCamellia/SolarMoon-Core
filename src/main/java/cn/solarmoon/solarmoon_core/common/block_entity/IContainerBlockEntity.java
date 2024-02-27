@@ -49,15 +49,15 @@ public interface IContainerBlockEntity {
 
     /**
      * 从中提取物品<br/>
-     * 默认逻辑从最后一栏开始提取，按物品栈提取<br/>
+     * 默认逻辑从最后一栏开始提取，按物品栈提取，没提取会返回空栈<br/>
      * 注意，这个只适用于空手提取<br/>
      * <b>别忘了setChanged！</b>
      */
-    default ItemStack extractItem() {
+    default ItemStack extractItem(int count) {
         int maxSlots = getInventory().getSlots();
         ItemStack stack = ItemStack.EMPTY;
         for (int i = 0; i < maxSlots; i++) {
-            stack = getInventory().extractItem(maxSlots - i - 1, 64, false);
+            stack = getInventory().extractItem(maxSlots - i - 1, count, false);
             if (!stack.isEmpty()) break;
         }
         return stack;
