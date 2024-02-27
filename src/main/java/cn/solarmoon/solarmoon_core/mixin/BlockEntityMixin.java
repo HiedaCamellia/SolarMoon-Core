@@ -3,6 +3,7 @@ package cn.solarmoon.solarmoon_core.mixin;
 import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IBlockEntityAnimateTicker;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IIndividualTimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.iutor.ITimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.util.namespace.SolarNBTList;
 import net.minecraft.core.Direction;
@@ -41,6 +42,9 @@ public class BlockEntityMixin extends CapabilityProvider<BlockEntity> {
         if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
             nbt.putInt(SolarNBTList.TIME, timeTile.getTime());
         }
+        if (blockEntity instanceof IIndividualTimeRecipeBlockEntity timesTile) {
+            nbt.putIntArray(SolarNBTList.SINGLE_STACK_TIME, timesTile.getTimes());
+        }
     }
 
     @Inject(method = "load", at = @At("HEAD"))
@@ -53,6 +57,12 @@ public class BlockEntityMixin extends CapabilityProvider<BlockEntity> {
         }
         if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
             timeTile.setTime(nbt.getInt(SolarNBTList.TIME));
+        }
+        if (blockEntity instanceof IIndividualTimeRecipeBlockEntity timesTile) {
+            int[] getFrom = nbt.getIntArray(SolarNBTList.SINGLE_STACK_TIME);
+            if (getFrom.length != 0) {
+                timesTile.setTimes(getFrom);
+            }
         }
     }
 

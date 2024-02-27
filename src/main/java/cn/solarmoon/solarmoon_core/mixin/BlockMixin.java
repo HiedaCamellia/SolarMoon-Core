@@ -1,6 +1,7 @@
 package cn.solarmoon.solarmoon_core.mixin;
 
 import cn.solarmoon.solarmoon_core.common.block.IHorizontalFacingBlock;
+import cn.solarmoon.solarmoon_core.common.block.ILitBlock;
 import cn.solarmoon.solarmoon_core.common.block.IStackBlock;
 import cn.solarmoon.solarmoon_core.common.block.IWaterLoggedBlock;
 import net.minecraft.core.BlockPos;
@@ -28,23 +29,28 @@ public abstract class BlockMixin extends BlockBehaviour {
 
     @Shadow public abstract BlockState defaultBlockState();
 
+    @Shadow private BlockState defaultBlockState;
     private Block block = (Block)(Object)this;
 
     public BlockMixin(Properties p_60452_) {
         super(p_60452_);
     }
 
-    @Inject(method = "registerDefaultState", at = @At("HEAD"))
+    @Inject(method = "registerDefaultState", at = @At("TAIL"))
     public void registerDefaultState(BlockState state, CallbackInfo ci) {
         if (block instanceof IHorizontalFacingBlock facingBlock) {
-            state.setValue(facingBlock.FACING, Direction.NORTH);
+            state = state.setValue(facingBlock.FACING, Direction.NORTH);
         }
         if (block instanceof IWaterLoggedBlock waterBlock) {
-            state.setValue(waterBlock.WATERLOGGED, false);
+            state = state.setValue(waterBlock.WATERLOGGED, false);
         }
         if (block instanceof IStackBlock stackBlock) {
-            state.setValue(stackBlock.STACK, 1);
+            state = state.setValue(stackBlock.STACK, 1);
         }
+        if (block instanceof ILitBlock litBlock) {
+            state = state.setValue(litBlock.LIT, false);
+        }
+        this.defaultBlockState = state;
     }
 
     @Inject(method = "createBlockStateDefinition", at = @At("HEAD"))
@@ -58,17 +64,20 @@ public abstract class BlockMixin extends BlockBehaviour {
         if (block instanceof IStackBlock stackBlock) {
             builder.add(stackBlock.STACK);
         }
+        if (block instanceof ILitBlock litBlock) {
+            builder.add(litBlock.LIT);
+        }
     }
 
     @Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
     public void getStateForPlacement(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
         BlockState state = this.defaultBlockState();
         if (block instanceof IHorizontalFacingBlock facingBlock) {
-            state.setValue(facingBlock.FACING, context.getHorizontalDirection().getOpposite());
+            state = state.setValue(facingBlock.FACING, context.getHorizontalDirection().getOpposite());
         }
         if (block instanceof IWaterLoggedBlock waterBlock) {
             FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
-            state.setValue(waterBlock.WATERLOGGED, fluid.getType() == Fluids.WATER);
+            state = state.setValue(waterBlock.WATERLOGGED, fluid.getType() == Fluids.WATER);
         }
         cir.setReturnValue(state);
     }

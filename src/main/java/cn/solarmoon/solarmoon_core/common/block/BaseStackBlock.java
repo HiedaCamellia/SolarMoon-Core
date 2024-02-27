@@ -1,18 +1,12 @@
 package cn.solarmoon.solarmoon_core.common.block;
 
-import cn.solarmoon.solarmoon_core.util.LevelSummonUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -36,22 +30,7 @@ public abstract class BaseStackBlock extends BaseWaterBlock implements IStackBlo
      */
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        ItemStack heldItem = player.getItemInHand(hand);
-        int stack = state.getValue(STACK);
-        if (heldItem.is(asItem()) && stack < maxStack) {
-            if (!player.isCreative()) heldItem.shrink(1);
-            level.setBlock(pos, state.setValue(STACK, stack + 1), 3);
-            level.playSound(null, pos, state.getSoundType().getPlaceSound(), SoundSource.PLAYERS);
-            return InteractionResult.SUCCESS;
-        } else if (heldItem.isEmpty() && stack > 1) {
-            level.setBlock(pos, state.setValue(STACK, stack - 1), 3);
-            if (!player.isCreative()) LevelSummonUtil.summonDrop(asItem(), level, pos, 1);
-            return InteractionResult.SUCCESS;
-        } else if (heldItem.isEmpty() && stack == 1) {
-            level.removeBlock(pos, false);
-            if (!player.isCreative()) LevelSummonUtil.summonDrop(asItem(), level, pos, 1);
-            return InteractionResult.SUCCESS;
-        }
+        if (stackUse(state, level, pos, player, hand)) return InteractionResult.SUCCESS;
         return InteractionResult.PASS;
     }
 
@@ -60,17 +39,12 @@ public abstract class BaseStackBlock extends BaseWaterBlock implements IStackBlo
      */
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        int count = state.getValue(STACK);
         List<ItemStack> drops = super.getDrops(state, builder);
-        for (ItemStack drop : drops) {
-            if (drop.is(asItem())) {
-                drop.setCount(count);
-                break;
-            }
-        }
+        setStackDrops(state, drops);
         return drops;
     }
 
+    @Override
     public int getMaxStack() {
         return maxStack;
     }

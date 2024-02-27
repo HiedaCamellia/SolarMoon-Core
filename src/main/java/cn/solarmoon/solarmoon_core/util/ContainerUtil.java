@@ -18,6 +18,13 @@ public class ContainerUtil {
     }
 
     /**
+     * 把现成的物品信息存入containerItem
+     */
+    public static void setInventory(ItemStack stack, ItemStackHandler inventory) {
+        stack.addTagElement(SolarNBTList.INVENTORY, inventory.serializeNBT());
+    }
+
+    /**
      * 根据itemStack的inventoryTag获取ItemStackHandler（物品容器信息）<br/>
      * 这里不用getElement因为inventory可能会返回不匹配方块inventory的
      */

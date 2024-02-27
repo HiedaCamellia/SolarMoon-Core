@@ -2,11 +2,7 @@ package cn.solarmoon.solarmoon_core.registry.object;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,18 +11,11 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class FeatureEntry<F extends FeatureConfiguration> {
@@ -38,8 +27,8 @@ public class FeatureEntry<F extends FeatureConfiguration> {
     private ResourceKey<PlacedFeature> placedKey;
     private ResourceKey<ConfiguredFeature<?, ?>> configKey;
     private Supplier<Feature<?>> featureSupplier;
-    private F config;
-    private List<PlacementModifier> placement;
+    private Supplier<F> config;
+    private Supplier<List<PlacementModifier>> placement;
     private RegistryObject<Feature<?>> featureObject;
 
     private static final List<FeatureEntry<?>> featureEntries = new ArrayList<>();
@@ -61,12 +50,12 @@ public class FeatureEntry<F extends FeatureConfiguration> {
         return this;
     }
 
-    public FeatureEntry<F> config(F config) {
+    public FeatureEntry<F> config(Supplier<F> config) {
         this.config = config;
         return this;
     }
 
-    public FeatureEntry<F> placement(List<PlacementModifier> placement) {
+    public FeatureEntry<F> placement(Supplier<List<PlacementModifier>> placement) {
         this.placement = placement;
         return this;
     }
@@ -92,11 +81,11 @@ public class FeatureEntry<F extends FeatureConfiguration> {
     }
 
     public F getConfig() {
-        return config;
+        return config.get();
     }
 
     public List<PlacementModifier> getPlacement() {
-        return placement;
+        return placement.get();
     }
 
     @SuppressWarnings("unchecked")

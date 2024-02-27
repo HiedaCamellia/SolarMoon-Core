@@ -1,8 +1,11 @@
 package cn.solarmoon.solarmoon_core.common.block.entity_block;
 
+import cn.solarmoon.solarmoon_core.common.block.IHorizontalFacingBlock;
+import cn.solarmoon.solarmoon_core.common.block.IWaterLoggedBlock;
 import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IBlockEntityAnimateTicker;
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IIndividualTimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.iutor.ITimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
 import cn.solarmoon.solarmoon_core.util.ContainerUtil;
@@ -48,14 +51,10 @@ import java.util.List;
  * 默认情况下会自动同步客户端各种容器的信息、设置红石信号逻辑、-中键物品、打落物品会存有给类容器信息、放置方块会读取stack的信息设置各类容器信息<br/>
  * 还是 万 物 本 源
  */
-public abstract class BasicEntityBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+public abstract class BasicEntityBlock extends BaseEntityBlock implements IHorizontalFacingBlock, IWaterLoggedBlock {
 
     protected BasicEntityBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     /**
@@ -78,52 +77,6 @@ public abstract class BasicEntityBlock extends BaseEntityBlock implements Simple
      */
     @Override
     public abstract VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context);
-
-    @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(FACING, WATERLOGGED);
-    }
-
-    /**
-     * @return 写入基本的放置状态
-     */
-    @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
-                .setValue(WATERLOGGED, fluid.getType() == Fluids.WATER);
-    }
-
-    /**
-     * @return 设置转向、镜像
-     */
-    @Override
-    public @NotNull BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    public @NotNull BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
-    }
-
-    /**
-     * 主要更新水流
-     */
-    @Override
-    public @NotNull BlockState updateShape(BlockState stateIn, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
-        if (stateIn.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
-        return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
-    }
-
-    @Override
-    public @NotNull FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
 
     /**
      * 创建一个ticker
@@ -191,6 +144,11 @@ public abstract class BasicEntityBlock extends BaseEntityBlock implements Simple
             if(ticks <= 100) ticks++;
             else ticks = 0;
             ticker.setTicks(ticks);
+        }
+        //独立配方时间的同步
+        if (blockEntity instanceof IIndividualTimeRecipeBlockEntity<?> timesTile) {
+            nbt.putIntArray(SolarNBTList.SINGLE_STACK_TIME, timesTile.getTimes());
+            SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IIRT_BLOCK, pos, nbt);
         }
     }
 

@@ -1,6 +1,7 @@
 package cn.solarmoon.solarmoon_core.network.handler;
 
 
+import cn.solarmoon.solarmoon_core.common.block_entity.iutor.IIndividualTimeRecipeBlockEntity;
 import cn.solarmoon.solarmoon_core.common.capability.serializable.RecipeSelectorData;
 import cn.solarmoon.solarmoon_core.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.common.block_entity.ITankBlockEntity;
@@ -52,6 +53,12 @@ public class BaseClientPackHandler implements IClientPackHandler {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
                 if (blockEntity instanceof ITimeRecipeBlockEntity<?> timeTile) {
                     timeTile.setTime(tag.getInt(SolarNBTList.TIME));
+                }
+            }
+            case SolarNETList.SYNC_IIRT_BLOCK -> {
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (blockEntity instanceof IIndividualTimeRecipeBlockEntity timesTile) {
+                    timesTile.setTimes(tag.getIntArray(SolarNBTList.SINGLE_STACK_TIME));
                 }
             }
             case SolarNETList.SYNC_INDEX -> {

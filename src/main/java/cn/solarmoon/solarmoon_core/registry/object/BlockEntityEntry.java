@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -13,7 +12,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Arrays;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public class BlockEntityEntry<E extends BlockEntity> {
@@ -21,7 +20,7 @@ public class BlockEntityEntry<E extends BlockEntity> {
     private final DeferredRegister<BlockEntityType<?>> blockEntityRegister;
 
     private String id;
-    private RegistryObject<? extends Block>[] validBlocks;
+    private Supplier<Block[]> validBlocks;
     private BlockEntityType.BlockEntitySupplier<E> blockEntitySupplier;
     private BlockEntityRendererProvider<E> blockEntityRenderer;
     private RegistryObject<BlockEntityType<E>> blockEntityTypeObject;
@@ -35,11 +34,7 @@ public class BlockEntityEntry<E extends BlockEntity> {
         return this;
     }
 
-    /**
-     * 需要提供延迟object来防止get null报错
-     */
-    @SafeVarargs
-    public final BlockEntityEntry<E> validBlock(RegistryObject<? extends Block>... validBlocks) {
+    public final BlockEntityEntry<E> validBlock(Supplier<Block[]> validBlocks) {
         this.validBlocks = validBlocks;
         return this;
     }
@@ -56,7 +51,7 @@ public class BlockEntityEntry<E extends BlockEntity> {
 
     public <T extends E> BlockEntityEntry<T> build() {
         this.blockEntityTypeObject = blockEntityRegister.register(id, () ->
-                BlockEntityType.Builder.of(blockEntitySupplier, Arrays.stream(validBlocks).map(RegistryObject::get).toArray(Block[]::new))
+                BlockEntityType.Builder.of(blockEntitySupplier, validBlocks.get())
                         .build(null));
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         if (FMLEnvironment.dist.isClient()) {

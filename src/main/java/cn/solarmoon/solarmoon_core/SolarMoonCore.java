@@ -4,6 +4,8 @@ import cn.solarmoon.solarmoon_core.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.registry.SolarConfig;
 import cn.solarmoon.solarmoon_core.registry.SolarNetPacks;
 import cn.solarmoon.solarmoon_core.registry.core.ObjectRegistry;
+import cn.solarmoon.solarmoon_core.registry.object.test;
+import cn.solarmoon.solarmoon_core.registry.object.testt;
 import cn.solarmoon.solarmoon_core.util.static_utor.Debug;
 import cn.solarmoon.solarmoon_core.util.static_utor.Translator;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static cn.solarmoon.solarmoon_core.SolarMoonCore.MOD_ID;
+import static cn.solarmoon.solarmoon_core.registry.object.testt.APPLE_TREE;
 
 
 @Mod(MOD_ID)
