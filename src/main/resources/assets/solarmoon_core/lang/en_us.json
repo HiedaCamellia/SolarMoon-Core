@@ -1,0 +1,16 @@
+{
+  "attribute.solarmoon_core.thorns": "Thorn Strike",
+
+  "death.attack.solarmoon_core.thorns": "%s died by accidental contact with the thorned body of %s",
+
+  "command.solarmoon_core.get_nbt.null": "There's no valid NBT on this item",
+
+  "matcher.solarmoon_core.item_empty": "Empty Hand",
+  "matcher.solarmoon_core.block_empty": "Air",
+  "matcher.solarmoon_core.any": "Anything",
+
+  "jei.solarmoon_core.attribute_forging.title": "Attribute Forging",
+  "jei.solarmoon_core.attribute_forging.max_forging_count": "Maximum Forging Count: %s",
+  "jei.solarmoon_core.use.title": "Use on Block",
+  "jei.solarmoon_core.chance": "Chance:%s%%"
+}

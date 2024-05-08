@@ -1,0 +1,16 @@
+{
+  "type": "solarmoon_core:attribute_forging",
+  "input": {
+    "tag": "forge:armors"
+  },
+  "material": {
+    "item": "minecraft:cactus",
+    "count": 1
+  },
+  "attribute": {
+    "id": "solarmoon_core:thorns",
+    "value": 1
+  },
+  "cost": 5,
+  "max_forging_count": 1
+}

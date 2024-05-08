@@ -1,0 +1,16 @@
+{
+  "attribute.solarmoon_core.thorns": "荆棘反伤",
+
+  "death.attack.solarmoon_core.thorns": "%s死于误触%s尖锐的身体",
+
+  "command.solarmoon_core.get_nbt.null": "该物品没有可用的nbt",
+
+  "matcher.solarmoon_core.item_empty": "空手",
+  "matcher.solarmoon_core.block_empty": "空气",
+  "matcher.solarmoon_core.any": "任意物",
+
+  "jei.solarmoon_core.attribute_forging.title": "属性锻造",
+  "jei.solarmoon_core.attribute_forging.max_forging_count": "最大锻造次数：%s",
+  "jei.solarmoon_core.use.title": "对方块使用",
+  "jei.solarmoon_core.chance": "概率：%s%%"
+}
