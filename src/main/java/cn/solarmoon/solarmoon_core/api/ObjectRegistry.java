@@ -5,6 +5,7 @@ import cn.solarmoon.solarmoon_core.api.common.ability.BlockEntityDataHolder;
 import cn.solarmoon.solarmoon_core.api.client.registry.LayerEntry;
 import cn.solarmoon.solarmoon_core.api.client.registry.ParticleEntry;
 import cn.solarmoon.solarmoon_core.api.common.registry.*;
+import cn.solarmoon.solarmoon_core.api.config.SolarConfigBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -33,9 +34,11 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jline.terminal.MouseEvent;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -182,6 +185,10 @@ public class ObjectRegistry {
 
     public LayerEntry layer() {
         return new LayerEntry(modId);
+    }
+
+    public SolarConfigBuilder configBuilder(ModConfig.Type type) {
+        return SolarConfigBuilder.create().modId(modId).side(type);
     }
 
     // 能力部分

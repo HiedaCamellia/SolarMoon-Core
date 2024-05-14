@@ -13,7 +13,9 @@ public class PlayerTickEvent {
     public void onPlayerTick(LivingEvent.LivingTickEvent event) {
         if (event.getEntity() instanceof Player player) {
             IPlayerData playerData = CapabilityUtil.getData(player, SolarCapabilities.PLAYER_DATA);
-            playerData.tick();
+            if (playerData != null) {
+                playerData.tick();
+            }
         }
     }
 

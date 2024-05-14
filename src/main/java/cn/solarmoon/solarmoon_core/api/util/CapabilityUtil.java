@@ -14,15 +14,13 @@ public class CapabilityUtil {
         return getCapability(provider, cap).orElse(null);
     }
 
-    @Nonnull
     public static <T> LazyOptional<T> getCapability(ICapabilityProvider provider, Capability<T> cap) {
         if (provider == null || cap == null) {
             return LazyOptional.empty();
         }
         return provider.getCapability(cap);
     }
-
-    @Nonnull
+    
     public static <T> LazyOptional<T> getCapability(ICapabilityProvider provider, Capability<T> cap, Direction side) {
         if (provider == null || cap == null) {
             return LazyOptional.empty();

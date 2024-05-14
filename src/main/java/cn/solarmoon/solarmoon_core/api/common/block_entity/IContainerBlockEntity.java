@@ -38,7 +38,7 @@ public interface IContainerBlockEntity {
     /**
      * 插入容纳的物品（按物品栈插入）<br/>
      * 逻辑为从第一格开始尝试插入直到插入成功<br/>
-     * 会返回计算消耗后的物品栈，因此不要再用shrink！用setItem！<br/>
+     * 会返回计算消耗后的物品栈，并不会消耗物品，因此不要再用shrink！用setItem！<br/>
      * <b>别忘了setChanged！</b>
      */
     default ItemStack insertItem(ItemStack itemStack) {
@@ -54,7 +54,6 @@ public interface IContainerBlockEntity {
     /**
      * 从中提取物品<br/>
      * 默认逻辑从最后一栏开始提取，按物品栈提取，没提取会返回空栈<br/>
-     * 注意，这个只适用于空手提取<br/>
      * <b>别忘了setChanged！</b>
      */
     default ItemStack extractItem(int count) {
@@ -104,7 +103,7 @@ public interface IContainerBlockEntity {
     }
 
     /**
-     * 单独放入物品
+     * 单独放入玩家手中物品
      * @return 成功返回true
      */
     default boolean putItem(Player player, InteractionHand hand, int count) {
@@ -120,7 +119,7 @@ public interface IContainerBlockEntity {
     }
 
     /**
-     * 单独拿取物品（只适用空手拿取）
+     * 玩家用手单独拿取物品（只适用空手拿取）
      * @return 成功返回true
      */
     default boolean takeItem(Player player, InteractionHand hand, int count) {

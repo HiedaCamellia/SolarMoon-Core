@@ -50,6 +50,17 @@ public class LevelSummonUtil {
      * 坐标中心位置（不包括y）
      * 附带一个自定义初速度
      */
+    public static void summonDrop(ItemStack item, Level level, BlockPos pos, Vec3 movement) {
+        ItemEntity drop = new ItemEntity(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, item);
+        drop.setDeltaMovement(movement);
+        level.addFreshEntity(drop);
+    }
+
+    /**
+     * 生成基础掉落物
+     * 坐标中心位置（不包括y）
+     * 附带一个自定义初速度
+     */
     public static void summonDrop(Item item, Level level, BlockPos pos, Vec3 movement, int amount) {
         ItemEntity drop = new ItemEntity(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, new ItemStack(item, amount));
         drop.setDeltaMovement(movement);

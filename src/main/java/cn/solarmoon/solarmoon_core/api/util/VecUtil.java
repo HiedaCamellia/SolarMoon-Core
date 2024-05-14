@@ -1,27 +1,28 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 public class VecUtil {
 
     /**
-     * 计算玩家面前一段距离的坐标位置，高度默认和玩家视线齐平
+     * 计算生物面前一段距离的坐标位置，高度默认和玩家视线齐平
      */
-    public static Vec3 getSpawnPosFrontPlayer(Player player, double distanceInFront) {
-        Vec3 lookVec = player.getLookAngle();
+    public static Vec3 getSpawnPosFrontEntity(LivingEntity living, double distanceInFront) {
+        Vec3 lookVec = living.getLookAngle();
         Vec3 inFrontVec = lookVec.scale(distanceInFront);
-        return player.position().add(0, player.getEyeHeight(), 0).add(inFrontVec);
+        return living.position().add(0.0, living.getEyeHeight(), 0.0).add(inFrontVec);
     }
 
     /**
-     * 计算玩家面前一段距离的坐标位置，且能调整高度
+     * 计算生物面前一段距离的坐标位置，且能调整高度
      */
-    public static Vec3 getSpawnPosFrontPlayer(Player player, double distanceInFront, double yOffset) {
-        Vec3 lookVec = player.getLookAngle();
+    public static Vec3 getSpawnPosFrontEntity(LivingEntity living, double distanceInFront, double yOffset) {
+        Vec3 lookVec = living.getLookAngle();
         Vec3 inFrontVec = lookVec.scale(distanceInFront);
-        return player.position().add(0, player.getEyeHeight() + yOffset, 0).add(inFrontVec);
+        return living.position().add(0.0, (double)living.getEyeHeight() + yOffset, 0.0).add(inFrontVec);
     }
 
     /**

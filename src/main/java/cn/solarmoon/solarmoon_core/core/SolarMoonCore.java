@@ -56,6 +56,11 @@ public class SolarMoonCore extends SolarMoonBase {
     }
 
     @Override
+    public void abilitiesClientOnly() {
+
+    }
+
+    @Override
     public void abilities() {
         SolarTickers.register();
         SolarTileDataHolders.register();

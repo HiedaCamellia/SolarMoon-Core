@@ -1,38 +1,31 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
 import cn.solarmoon.solarmoon_core.api.common.recipe.serializable.ChanceResult;
-import cn.solarmoon.solarmoon_core.api.util.RecipeUtil;
-import cn.solarmoon.solarmoon_core.api.util.TextUtil;
-import cn.solarmoon.solarmoon_core.api.util.UUIDGetter;
 import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 超便捷快速json配方解码，这里所有的内容都是写成可选的（也就是输错主条目不报错）
  */
-public class RecipeSerializeHelper {
+public class SerializeHelper {
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -196,6 +189,36 @@ public class RecipeSerializeHelper {
 
     public static void writeBlock(FriendlyByteBuf buf, Block block) {
         buf.writeRegistryId(ForgeRegistries.BLOCKS, block);
+    }
+
+    public static Vec3 readVec3(FriendlyByteBuf buf) {
+        double x = buf.readDouble();
+        double y = buf.readDouble();
+        double z = buf.readDouble();
+        return new Vec3(x, y, z);
+    }
+
+    public static void writeVec3(FriendlyByteBuf buf, Vec3 vec3) {
+        buf.writeDouble(vec3.x);
+        buf.writeDouble(vec3.y);
+        buf.writeDouble(vec3.z);
+    }
+
+    public static List<Vec3> readVec3List(FriendlyByteBuf buf) {
+        List<Vec3> vec3List = new ArrayList<>();
+        int size = buf.readVarInt();
+        for (int i = 0; i < size; i++) {
+            Vec3 vec3 = readVec3(buf);
+            vec3List.add(vec3);
+        }
+        return vec3List;
+    }
+
+    public static void writeVec3List(FriendlyByteBuf buf, List<Vec3> vec3List) {
+        buf.writeVarInt(vec3List.size());
+        for (var vec3 : vec3List) {
+            writeVec3(buf, vec3);
+        }
     }
 
 }

@@ -9,6 +9,7 @@ public abstract class SolarMoonBase {
         if (FMLEnvironment.dist.isClient()) {
             objectsClientOnly();
             eventObjectsClientOnly();
+            abilitiesClientOnly();
         }
         objects();
         eventObjects();
@@ -41,6 +42,11 @@ public abstract class SolarMoonBase {
      * 外部数据
      */
     public abstract void xData();
+
+    /**
+     * 自定特殊能力但是只在客户端
+     */
+    public abstract void abilitiesClientOnly();
 
     /**
      * 自定特殊能力

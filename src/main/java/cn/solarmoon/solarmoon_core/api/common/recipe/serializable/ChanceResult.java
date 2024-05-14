@@ -12,7 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
-import static cn.solarmoon.solarmoon_core.api.util.RecipeSerializeHelper.GSON;
+import static cn.solarmoon.solarmoon_core.api.util.SerializeHelper.GSON;
 
 public record ChanceResult(ItemStack stack, float chance) {
 
