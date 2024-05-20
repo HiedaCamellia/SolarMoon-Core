@@ -2,6 +2,7 @@ package cn.solarmoon.solarmoon_core.api.common.capability;
 
 import cn.solarmoon.solarmoon_core.api.common.capability.serializable.itemstack.EmbeddingData;
 import cn.solarmoon.solarmoon_core.api.common.capability.serializable.itemstack.EmploymentData;
+import cn.solarmoon.solarmoon_core.api.common.capability.serializable.itemstack.HiddenItemInsertionData;
 import cn.solarmoon.solarmoon_core.api.common.capability.serializable.itemstack.RecipeSelectorData;
 import cn.solarmoon.solarmoon_core.core.common.registry.SolarCapabilities;
 import net.minecraft.core.Direction;
@@ -19,6 +20,7 @@ public class ItemStackData implements ICapabilitySerializable<CompoundTag>, IIte
     private final EmploymentData employmentData;
     private final EmbeddingData embeddingData;
     private final RecipeSelectorData recipeSelectorData;
+    private final HiddenItemInsertionData hiddenItemInsertionData;
 
     public ItemStackData(ItemStack stack) {
         this.itemStackData = LazyOptional.of(() -> this);
@@ -27,6 +29,7 @@ public class ItemStackData implements ICapabilitySerializable<CompoundTag>, IIte
         this.employmentData = new EmploymentData();
         this.embeddingData = new EmbeddingData();
         this.recipeSelectorData = new RecipeSelectorData();
+        this.hiddenItemInsertionData = new HiddenItemInsertionData();
     }
 
     @Override
@@ -45,12 +48,18 @@ public class ItemStackData implements ICapabilitySerializable<CompoundTag>, IIte
     }
 
     @Override
+    public HiddenItemInsertionData getHiddenItemInsertionData() {
+        return hiddenItemInsertionData;
+    }
+
+    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
 
         tag.put("EmploymentData", employmentData.serializeNBT());
         tag.put("EmbeddingData", embeddingData.serializeNBT());
         tag.put("RecipeSelectorData", recipeSelectorData.serializeNBT());
+        tag.put("HiddenItemInsertionData", hiddenItemInsertionData.serializeNBT());
 
         return tag;
     }
@@ -61,6 +70,7 @@ public class ItemStackData implements ICapabilitySerializable<CompoundTag>, IIte
         employmentData.deserializeNBT(nbt.getCompound("EmploymentData"));
         embeddingData.deserializeNBT(nbt.getCompound("EmbeddingData"));
         recipeSelectorData.deserializeNBT(nbt.getCompound("RecipeSelectorData"));
+        hiddenItemInsertionData.deserializeNBT(nbt.getCompound("HiddenItemInsertionData"));
 
     }
 

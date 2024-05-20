@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.jei;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.compat.jei.BaseJEI;
 import cn.solarmoon.solarmoon_core.api.util.namespace.SolarBaseRes;
 import cn.solarmoon.solarmoon_core.core.common.recipe.AttributeForgingRecipe;

@@ -26,4 +26,11 @@ public class FoodValue {
         return nutrition > 0 || saturation > 0;
     }
 
+    @Override
+    public String toString() {
+        return "FoodValue{" +
+                "nutrition=" + nutrition +
+                ", saturation=" + saturation +
+                '}';
+    }
 }

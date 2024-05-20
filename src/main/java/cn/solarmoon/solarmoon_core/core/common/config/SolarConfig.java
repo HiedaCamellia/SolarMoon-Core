@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.common.config;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.config.SolarConfigBuilder;
 import cn.solarmoon.solarmoon_core.api.util.RegisterHelper;
 import net.minecraftforge.common.ForgeConfigSpec;

@@ -188,4 +188,13 @@ public class NetworkSender {
         }
     }
 
+    public void send(String message, BlockPos pos, List<ItemStack> stacks, List<Vec3> vec3List) {
+        if (side == NetPackEntry.Side.CLIENT) {
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+        }
+        if (side == NetPackEntry.Side.SERVER) {
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+        }
+    }
+
 }

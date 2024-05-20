@@ -10,5 +10,6 @@ public class SolarNETList {
     public static final String SYNC_RECIPE_INDEX = "syncRecipeIndex";
     public static final String SYNC_FURNACE = "updateFurnaceStack";
     public static final String PARTICLE_SWEEP = "particleSweep";
+    public static final String PUMP = "pumpItems";
 
 }

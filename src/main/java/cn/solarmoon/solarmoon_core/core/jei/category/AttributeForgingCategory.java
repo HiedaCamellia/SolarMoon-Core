@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.jei.category;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.compat.jei.category.BaseJEICategory;
 import cn.solarmoon.solarmoon_core.api.util.AttributeUtil;
 import cn.solarmoon.solarmoon_core.api.util.CapabilityUtil;

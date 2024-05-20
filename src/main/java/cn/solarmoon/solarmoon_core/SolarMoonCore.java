@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.core;
+package cn.solarmoon.solarmoon_core;
 
 import cn.solarmoon.solarmoon_core.api.SolarMoonBase;
 import cn.solarmoon.solarmoon_core.api.ObjectRegistry;
@@ -13,7 +13,7 @@ import cn.solarmoon.solarmoon_core.core.common.registry.ability.SolarTickers;
 import cn.solarmoon.solarmoon_core.core.common.registry.ability.SolarTileDataHolders;
 import net.minecraftforge.fml.common.Mod;
 
-import static cn.solarmoon.solarmoon_core.core.SolarMoonCore.MOD_ID;
+import static cn.solarmoon.solarmoon_core.SolarMoonCore.MOD_ID;
 
 
 @Mod(MOD_ID)

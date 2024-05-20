@@ -1,6 +1,7 @@
 package cn.solarmoon.solarmoon_core.core.common.recipe.serializer;
 
 import cn.solarmoon.solarmoon_core.api.common.recipe.serializable.AttributeData;
+import cn.solarmoon.solarmoon_core.api.util.SerializeHelper;
 import cn.solarmoon.solarmoon_core.core.common.recipe.AttributeForgingRecipe;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,7 +28,7 @@ public class AttributeForgingRecipeSerializer implements RecipeSerializer<Attrib
     @Override
     public AttributeForgingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         Ingredient input = Ingredient.fromNetwork(buffer);
-        ItemStack material = buffer.readItem();
+        ItemStack material = SerializeHelper.readItemStack(buffer);
         AttributeData attributeData = AttributeData.read(buffer);
         int expCost = buffer.readInt();
         int maxForgeCount = buffer.readInt();
@@ -37,7 +38,7 @@ public class AttributeForgingRecipeSerializer implements RecipeSerializer<Attrib
     @Override
     public void toNetwork(FriendlyByteBuf buffer, AttributeForgingRecipe recipe) {
         recipe.input().toNetwork(buffer);
-        buffer.writeItem(recipe.material());
+        SerializeHelper.writeItemStack(buffer, recipe.material());
         recipe.attributeData().write(buffer);
         buffer.writeInt(recipe.expCost());
         buffer.writeInt(recipe.maxForgeCount());

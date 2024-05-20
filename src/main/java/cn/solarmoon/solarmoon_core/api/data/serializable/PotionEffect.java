@@ -54,4 +54,15 @@ public class PotionEffect {
         return duration * 20;
     }
 
+    @Override
+    public String toString() {
+        return "PotionEffect{" +
+                "id='" + id + '\'' +
+                ", duration=" + duration +
+                ", amplifier=" + amplifier +
+                ", invisible=" + invisible +
+                ", chance=" + chance +
+                ", hide_icon=" + hide_icon +
+                '}';
+    }
 }

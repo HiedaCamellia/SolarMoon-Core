@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.common.registry.ability;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.ability.BlockEntityDataHolder;
 import cn.solarmoon.solarmoon_core.api.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.api.common.block_entity.ITankBlockEntity;

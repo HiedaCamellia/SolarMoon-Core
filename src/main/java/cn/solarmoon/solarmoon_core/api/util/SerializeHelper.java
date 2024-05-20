@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -62,7 +63,6 @@ public class SerializeHelper {
         }
     }
 
-    //找机会改个能读tag的，不过现在暂时用不到
     public static Fluid readFluid(JsonObject json, String ide) {
         Fluid fluid = Fluids.EMPTY;
         if (json.has(ide)) {
@@ -107,8 +107,27 @@ public class SerializeHelper {
         else return FluidStack.EMPTY;
     }
 
+    /**
+     * @return 默认读取完整的物品（原来的方法不会读取如capability的数据）
+     */
     public static ItemStack readItemStack(JsonObject json, String id) {
         return CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, id), true);
+    }
+
+    /**
+     * 注意，使用这个方法必须和此类中的写入方法配合，不要用外部方法，会导致问题！
+     * 包括下面所有和itemstack相关的内容都是如此！
+     * @return 默认读取完整的物品（原来的方法不会读取如capability的数据）
+     */
+    public static ItemStack readItemStack(FriendlyByteBuf buf) {
+        return ItemStack.of(buf.readAnySizeNbt());
+    }
+
+    /**
+     * 默认发送完整物品
+     */
+    public static void writeItemStack(FriendlyByteBuf buf, ItemStack stack) {
+        buf.writeNbt(stack.serializeNBT());
     }
 
     public static List<ItemStack> readItemStacks(JsonObject json, String id) {
@@ -121,20 +140,32 @@ public class SerializeHelper {
         return stacks;
     }
 
+    /**
+     * 必须和此类中的write配合使用
+     */
     public static List<ItemStack> readItemStacks(FriendlyByteBuf buffer) {
         List<ItemStack> stacks = new ArrayList<>();
         int itemCount = buffer.readVarInt();
         for (int i = 0; i < itemCount; i++) {
-            stacks.add(buffer.readItem());
+            stacks.add(readItemStack(buffer));
         }
         return stacks;
     }
 
+    /**
+     * 必须和此类中的read配合使用
+     */
     public static void writeItemStacks(FriendlyByteBuf buffer, List<ItemStack> stacks) {
         buffer.writeVarInt(stacks.size());
         for (ItemStack stack : stacks) {
-            buffer.writeItem(stack);
+            writeItemStack(buffer, stack);
         }
+    }
+
+    public static Ingredient readIngredient(JsonObject json, String id) {
+        if (json.has(id)) {
+            return Ingredient.fromJson(json.get(id));
+        } else return Ingredient.EMPTY;
     }
 
     public static List<Ingredient> readIngredients(JsonObject json, String id) {

@@ -1,9 +1,8 @@
-package cn.solarmoon.solarmoon_core.api.client.blockEntityRenderer;
+package cn.solarmoon.solarmoon_core.api.client.renderer.blockEntity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

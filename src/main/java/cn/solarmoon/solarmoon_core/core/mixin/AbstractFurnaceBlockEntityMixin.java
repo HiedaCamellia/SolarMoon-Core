@@ -28,6 +28,6 @@ public class AbstractFurnaceBlockEntityMixin {
             ItemStack stack = blockEntity.getItem(i);
             stacks.add(stack);
         }
-        SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_FURNACE, pos, stacks);
+        SolarNetPacks.CLIENT.getSender().send(SolarNETList.SYNC_FURNACE, pos, stacks);
     }
 }

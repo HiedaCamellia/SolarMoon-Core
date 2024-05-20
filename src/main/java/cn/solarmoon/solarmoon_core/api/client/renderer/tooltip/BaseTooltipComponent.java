@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.client.tooltip;
+package cn.solarmoon.solarmoon_core.api.client.renderer.tooltip;
 
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;

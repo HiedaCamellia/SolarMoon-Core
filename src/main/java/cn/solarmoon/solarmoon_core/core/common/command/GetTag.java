@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.common.command;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.command.BaseCommand;
 import com.mojang.brigadier.Command;
 import net.minecraft.server.level.ServerPlayer;

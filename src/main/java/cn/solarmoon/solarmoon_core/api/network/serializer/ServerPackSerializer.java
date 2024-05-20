@@ -21,7 +21,7 @@ public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack
     public void encode(FriendlyByteBuf buf) {
         buf.writeUtf(message);
         buf.writeBlockPos(Objects.requireNonNullElse(pos, BlockPos.ZERO));
-        buf.writeItemStack(stack, true);
+        SerializeHelper.writeItemStack(buf, stack);
         SerializeHelper.writeItemStacks(buf, stacks);
         buf.writeNbt(tag);
         buf.writeFluidStack(fluidStack);
@@ -34,7 +34,7 @@ public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack
     public static ServerPackSerializer decode(FriendlyByteBuf buf) {
         String message = buf.readUtf(32767);
         BlockPos pos = buf.readBlockPos();
-        ItemStack stack = buf.readItem();
+        ItemStack stack = SerializeHelper.readItemStack(buf);
         List<ItemStack> stacks = SerializeHelper.readItemStacks(buf);
         CompoundTag tag = buf.readNbt();
         FluidStack fluidStack = buf.readFluidStack();

@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.mixin;
 
-import cn.solarmoon.solarmoon_core.api.client.ItemRenderer.IItemRendererProvider;
+import cn.solarmoon.solarmoon_core.api.client.renderer.Item.IItemRendererProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;

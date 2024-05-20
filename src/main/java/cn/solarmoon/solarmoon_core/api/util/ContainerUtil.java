@@ -27,11 +27,22 @@ public class ContainerUtil {
 
     /**
      * 根据itemStack的inventoryTag获取ItemStackHandler（物品容器信息）<br/>
-     * 没有的话会自动创建一个容器<br/>
      * 注意，此方法获得的物品的容器直接修改是无法体现在游戏中的，必须修改后使用setInventory固定！
      * 这里不用getElement因为inventory可能会返回不匹配方块inventory的
      */
     public static ItemStackHandler getInventory(ItemStack stack) {
+        ItemStackHandler inventory = new ItemStackHandler();
+        CompoundTag tag = stack.getTag();
+        if (tag != null && tag.contains(SolarNBTList.INVENTORY)) {
+            inventory.deserializeNBT(tag.getCompound(SolarNBTList.INVENTORY));
+        }
+        return inventory;
+    }
+
+    /**
+     * @return 同上，但是如果没有会创建一个新的容器
+     */
+    public static ItemStackHandler getOrCreateInventory(ItemStack stack) {
         ItemStackHandler inventory = new ItemStackHandler();
         CompoundTag tag = stack.getTag();
         if (tag != null && tag.contains(SolarNBTList.INVENTORY)) {

@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -86,11 +87,11 @@ public class BlockMatcher {
         return new BlockMatcher(true);
     }
 
-    public static BlockMatcher create(Block block) {
+    public static BlockMatcher of(Block block) {
         return new BlockMatcher(block);
     }
 
-    public static BlockMatcher create(TagKey<Block> blockTag) {
+    public static BlockMatcher of(TagKey<Block> blockTag) {
         return new BlockMatcher(blockTag);
     }
 
@@ -103,4 +104,16 @@ public class BlockMatcher {
                 + "]";
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        BlockMatcher that = (BlockMatcher) object;
+        return any == that.any && Objects.equals(block, that.block) && Objects.equals(blockTag, that.blockTag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(block, blockTag, any);
+    }
 }

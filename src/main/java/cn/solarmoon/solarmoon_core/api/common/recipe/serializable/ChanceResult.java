@@ -79,7 +79,7 @@ public record ChanceResult(ItemStack stack, float chance) {
     }
 
     public void write(FriendlyByteBuf buf) {
-        buf.writeItem(stack());
+        buf.writeItemStack(stack(), false);
         buf.writeFloat(chance());
     }
 

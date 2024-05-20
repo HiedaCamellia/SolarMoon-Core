@@ -1,12 +1,22 @@
 package cn.solarmoon.solarmoon_core.api.common.block_entity;
 
+import cn.solarmoon.solarmoon_core.api.common.block.IBlockUseCaller;
 import cn.solarmoon.solarmoon_core.api.util.LevelSummonUtil;
 import cn.solarmoon.solarmoon_core.api.util.namespace.SolarNBTList;
+import cn.solarmoon.solarmoon_core.api.util.namespace.SolarNETList;
+import cn.solarmoon.solarmoon_core.core.common.registry.SolarNetPacks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
@@ -119,7 +129,7 @@ public interface IContainerBlockEntity {
     }
 
     /**
-     * 玩家用手单独拿取物品（只适用空手拿取）
+     * 玩家用手单独拿取物品（只适用空手拿取），超过的部分不会提取，放心使用
      * @return 成功返回true
      */
     default boolean takeItem(Player player, InteractionHand hand, int count) {
@@ -141,6 +151,43 @@ public interface IContainerBlockEntity {
     default boolean storage(Player player, InteractionHand hand, int putCount, int takeCount) {
         if (putItem(player, hand, putCount)) return true;
         return takeItem(player, hand, takeCount);
+    }
+
+    /**
+     * 特殊的取物逻辑，玩家蹲下时存入手中全部物品，站立时存入一个，取出同理<br/>
+     * 但要注意必须实现IBlockUseCaller接口，否则默认情况下将不调用蹲下后的逻辑
+     * @return 成功返回true
+     */
+    default boolean specialStorage(Player player, InteractionHand hand) {
+        ItemStack heldItem = player.getItemInHand(hand);
+        if (!heldItem.isEmpty()) {
+            if (player.isCrouching()) {
+                return putItem(player, hand, heldItem.getCount());
+            } else putItem(player, hand, 1);
+        } else {
+            if (player.isCrouching()) {
+                return takeItem(player, hand, 64);
+            } else {
+                return takeItem(player, hand, 1);
+            }
+        }
+        return false;
+    }
+
+    default void clear() {
+        getStacks().forEach(stack -> stack.setCount(0));
+    }
+
+    /**
+     * 泵出所有物品
+     */
+    default void pumpOutAllItems(Vec3 positionAddon) {
+        BlockEntity blockEntity = (BlockEntity) this;
+        if (blockEntity.getLevel() != null && blockEntity.getLevel().isClientSide) {
+            SolarNetPacks.SERVER.getSender().send(SolarNETList.PUMP, blockEntity.getBlockPos(), getStacks(), List.of(positionAddon));
+        }
+        clear();
+        ((BlockEntity)this).setChanged();
     }
 
 }

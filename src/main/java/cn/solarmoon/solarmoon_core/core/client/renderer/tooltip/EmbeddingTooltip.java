@@ -1,7 +1,7 @@
-package cn.solarmoon.solarmoon_core.core.client.tooltip;
+package cn.solarmoon.solarmoon_core.core.client.renderer.tooltip;
 
-import cn.solarmoon.solarmoon_core.api.client.tooltip.BaseTooltip;
-import cn.solarmoon.solarmoon_core.api.client.tooltip.BaseTooltipComponent;
+import cn.solarmoon.solarmoon_core.api.client.renderer.tooltip.BaseTooltip;
+import cn.solarmoon.solarmoon_core.api.client.renderer.tooltip.BaseTooltipComponent;
 import cn.solarmoon.solarmoon_core.api.util.namespace.SolarBaseRes;
 import cn.solarmoon.solarmoon_core.api.common.capability.serializable.itemstack.EmbeddingData;
 import cn.solarmoon.solarmoon_core.api.util.CapabilityUtil;

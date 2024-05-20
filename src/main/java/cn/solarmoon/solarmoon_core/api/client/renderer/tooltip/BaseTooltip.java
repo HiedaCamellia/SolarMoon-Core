@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.client.tooltip;
+package cn.solarmoon.solarmoon_core.api.client.renderer.tooltip;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

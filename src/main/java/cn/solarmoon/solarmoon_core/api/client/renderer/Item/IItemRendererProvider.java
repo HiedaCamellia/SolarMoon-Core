@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.client.ItemRenderer;
+package cn.solarmoon.solarmoon_core.api.client.renderer.Item;
 
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;

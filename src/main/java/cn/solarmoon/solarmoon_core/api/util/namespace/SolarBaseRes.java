@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.util.namespace;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import net.minecraft.resources.ResourceLocation;
 
 public class SolarBaseRes {

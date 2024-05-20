@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.client.ItemRenderer;
+package cn.solarmoon.solarmoon_core.api.client.renderer.Item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

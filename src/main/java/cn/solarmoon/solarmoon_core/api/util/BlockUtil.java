@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.block.IBedPartBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -37,6 +38,12 @@ public class ItemMatcher {
 
     public ItemMatcher(Item item) {
         this.item = item;
+        this.itemTag = null;
+        this.any = false;
+    }
+
+    public ItemMatcher(ItemStack item) {
+        this.item = item.getItem();
         this.itemTag = null;
         this.any = false;
     }
@@ -92,11 +99,15 @@ public class ItemMatcher {
         return new ItemMatcher(true);
     }
 
-    public static ItemMatcher create(Item item) {
+    public static ItemMatcher of(Item item) {
         return new ItemMatcher(item);
     }
 
-    public static ItemMatcher create(TagKey<Item> itemTag) {
+    public static ItemMatcher of(ItemStack stack) {
+        return new ItemMatcher(stack);
+    }
+
+    public static ItemMatcher of(TagKey<Item> itemTag) {
         return new ItemMatcher(itemTag);
     }
 
@@ -109,4 +120,16 @@ public class ItemMatcher {
                 + "]";
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        ItemMatcher that = (ItemMatcher) object;
+        return any == that.any && Objects.equals(item, that.item) && Objects.equals(itemTag, that.itemTag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(item, itemTag, any);
+    }
 }

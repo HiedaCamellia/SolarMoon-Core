@@ -6,6 +6,8 @@ import cn.solarmoon.solarmoon_core.api.util.HitResultUtil;
 import cn.solarmoon.solarmoon_core.core.common.registry.SolarCapabilities;
 import cn.solarmoon.solarmoon_core.api.util.CapabilityUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -16,7 +18,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +68,7 @@ public interface IOptionalRecipeItem<T extends Recipe<RecipeWrapper>> {
         List<T> recipes = level.getRecipeManager().getAllRecipesFor(this.getRecipeType());
         return recipes.stream()
                 .filter((recipe) -> this.recipeMatches(recipe, hitState, level, hit, player))
-                .sorted(Comparator.comparingInt(Object::hashCode)) //必须进行排序，否则会导致gui的列表和此列表顺序不一致
+                .sorted(Comparator.comparing(recipe -> recipe.getId().getPath())) //必须进行排序，否则会导致gui的列表和此列表顺序不一致
                 .toList();
     }
 

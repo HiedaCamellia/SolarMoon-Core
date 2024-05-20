@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.common.registry.ability;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.ability.BasicEntityBlockTicker;
 import cn.solarmoon.solarmoon_core.api.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.api.common.block_entity.ITankBlockEntity;
@@ -23,7 +23,7 @@ public class SolarTickers {
             .addSynchronizer((pair, nbt) -> {
                 //物品容器同步
                 nbt.put(SolarNBTList.INVENTORY, pair.getA().getInventory().serializeNBT());
-                SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IC_BLOCK, pair.getB().getBlockPos(), nbt);
+                SolarNetPacks.CLIENT.getSender().send(SolarNETList.SYNC_IC_BLOCK, pair.getB().getBlockPos(), nbt);
             })
             .build();
 
@@ -32,7 +32,7 @@ public class SolarTickers {
             .addSynchronizer((pair, nbt) -> {
                 //液体同步
                 nbt.put(SolarNBTList.FLUID, pair.getA().getTank().writeToNBT(new CompoundTag()));
-                SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IT_BLOCK, pair.getB().getBlockPos(), nbt);
+                SolarNetPacks.CLIENT.getSender().send(SolarNETList.SYNC_IT_BLOCK, pair.getB().getBlockPos(), nbt);
             })
             .build();
 
@@ -41,7 +41,7 @@ public class SolarTickers {
             .addSynchronizer((pair, nbt) -> {
                 //配方时间同步
                 nbt.putInt(SolarNBTList.TIME, pair.getA().getTime());
-                SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IRT_BLOCK, pair.getB().getBlockPos(), nbt);
+                SolarNetPacks.CLIENT.getSender().send(SolarNETList.SYNC_IRT_BLOCK, pair.getB().getBlockPos(), nbt);
             })
             .build();
 
@@ -50,7 +50,7 @@ public class SolarTickers {
             .addSynchronizer((pair, nbt) -> {
                 //独立配方时间的同步
                 nbt.putIntArray(SolarNBTList.SINGLE_STACK_TIME, pair.getA().getTimes());
-                SolarNetPacks.BASE_CLIENT_PACK.getSender().send(SolarNETList.SYNC_IIRT_BLOCK, pair.getB().getBlockPos(), nbt);
+                SolarNetPacks.CLIENT.getSender().send(SolarNETList.SYNC_IIRT_BLOCK, pair.getB().getBlockPos(), nbt);
             })
             .build();
 

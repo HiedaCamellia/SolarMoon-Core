@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.core.common.registry;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.registry.DamageTypeEntry;
 
 public class SolarDamageTypes {

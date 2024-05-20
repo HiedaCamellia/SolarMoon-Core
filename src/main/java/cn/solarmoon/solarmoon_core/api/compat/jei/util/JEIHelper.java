@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.compat.jei.util;
 
-import cn.solarmoon.solarmoon_core.core.SolarMoonCore;
+import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
