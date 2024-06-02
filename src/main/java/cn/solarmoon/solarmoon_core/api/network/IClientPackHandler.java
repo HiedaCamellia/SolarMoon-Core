@@ -27,15 +27,16 @@ public interface IClientPackHandler {
         float f = packet.f();
         int[] ints = packet.ints();
         List<Vec3> vec3List = packet.vec3List();
+        boolean flag = packet.flag();
         String string = packet.string();
         //处理
         if (level == null || player == null) return;
-        handle(player, level, pos, stack, tag, fluidStack, f, ints, string, stacks, vec3List, packet.message());
+        handle(player, level, pos, stack, tag, fluidStack, f, ints, string, stacks, vec3List, flag, packet.message());
     }
 
     /**
      * 对包进行处理，建议使用switch(message)进行识别
      */
-    void handle(LocalPlayer player, ClientLevel level, BlockPos pos, ItemStack stack, CompoundTag tag, FluidStack fluidStack, float f, int[] ints, String string, List<ItemStack> stacks, List<Vec3> vec3List, String message);
+    void handle(LocalPlayer player, ClientLevel level, BlockPos pos, ItemStack stack, CompoundTag tag, FluidStack fluidStack, float f, int[] ints, String string, List<ItemStack> stacks, List<Vec3> vec3List, boolean flag, String message);
 
 }

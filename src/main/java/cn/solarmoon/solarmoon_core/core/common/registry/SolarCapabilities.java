@@ -2,14 +2,12 @@ package cn.solarmoon.solarmoon_core.core.common.registry;
 
 
 import cn.solarmoon.solarmoon_core.SolarMoonCore;
-import cn.solarmoon.solarmoon_core.api.common.capability.IItemStackData;
-import cn.solarmoon.solarmoon_core.api.common.capability.IPlayerData;
-import cn.solarmoon.solarmoon_core.api.common.capability.ItemStackData;
-import cn.solarmoon.solarmoon_core.api.common.capability.PlayerData;
+import cn.solarmoon.solarmoon_core.api.common.capability.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -26,6 +24,7 @@ public class SolarCapabilities {
 
     public static final Capability<IPlayerData> PLAYER_DATA = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<IItemStackData> ITEMSTACK_DATA = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IBlockEntityData> BLOCK_ENTITY_DATA = CapabilityManager.get(new CapabilityToken<>(){});
 
     @SubscribeEvent
     public void onAttachPlayerCapabilities(AttachCapabilitiesEvent<Entity> event) {
@@ -40,9 +39,15 @@ public class SolarCapabilities {
     }
 
     @SubscribeEvent
+    public void onAttachTileCapabilities(AttachCapabilitiesEvent<BlockEntity> event) {
+        event.addCapability(id("block_entity_data"), new BlockEntityData(event.getObject()));
+    }
+
+    @SubscribeEvent
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.register(IPlayerData.class);
         event.register(IItemStackData.class);
+        event.register(IBlockEntityData.class);
     }
 
     public void onFMLCommonSetup(FMLCommonSetupEvent event) {

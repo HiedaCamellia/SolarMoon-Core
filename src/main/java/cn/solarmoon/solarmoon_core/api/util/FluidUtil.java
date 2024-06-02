@@ -86,6 +86,18 @@ public class FluidUtil {
     }
 
     /**
+     * 用于强制设置物品里的液体（前者是被设置的，后者是设置的内容）
+     */
+    public static void setTank(ItemStack stack, FluidStack fluidStack) {
+        //把blockEntity的tank注入item
+        IFluidHandlerItem tankStack = getTank(stack);
+        if (tankStack != null) { //我也不敢改这个，怒了
+            tankStack.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
+            tankStack.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+        }
+    }
+
+    /**
      * 检查两个流体栈是否完全匹配（包括数量）
      */
     public static boolean isMatch(FluidStack fluid1, FluidStack fluid2, boolean compareAmount, boolean compareNBT) {

@@ -9,4 +9,5 @@ public class SolarDamageTypes {
     public final static DamageTypeEntry THORNS = SolarMoonCore.REGISTRY.damageType()
             .id("thorns")
             .build();
+
 }

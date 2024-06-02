@@ -3,6 +3,7 @@ package cn.solarmoon.solarmoon_core.core.common.command;
 import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.command.BaseCommand;
 import com.mojang.brigadier.Command;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -28,8 +29,8 @@ public class GetNBT extends BaseCommand {
         ItemStack stack = player.getMainHandItem();
         var tag = stack.getTag();
         if (tag != null) {
-            SolarMoonCore.DEBUG.send(tag.getAsString());
-        } else SolarMoonCore.DEBUG.send(SolarMoonCore.TRANSLATOR.set("command", "get_nbt.null").toString());
+            player.sendSystemMessage(Component.literal(tag.getAsString()));
+        } else player.sendSystemMessage(SolarMoonCore.TRANSLATOR.set("command", "get_nbt.null"));;
         return Command.SINGLE_SUCCESS;
     }
 

@@ -32,24 +32,39 @@ public class BlockUtil {
     /**
      * 完美继承上一个方块的所有可以继承的属性
      */
-    @SuppressWarnings("unchecked") // 记得测试一下双方块换为单方块还会不会掉落本体
-    public static void replaceBlockWithAllState(BlockState originState, BlockState stateLess, Level level, BlockPos pos) {
-        var values = originState.getValues();
+    public static BlockState inheritBlockWithAllState(BlockState stateToBeInherited, BlockState stateToSet) {
+        var values = stateToBeInherited.getValues();
         for (var entry : values.entrySet()) {
             Property key = entry.getKey();
-            if (stateLess.getValues().get(key) != null) {
+            if (stateToSet.getValues().get(key) != null) {
                 Comparable value = entry.getValue();
-                stateLess = stateLess.setValue(key, value);
+                stateToSet = stateToSet.setValue(key, value);
             }
         }
-        if (stateLess.getValues().get(PART) != null && values.get(PART) != null) replaceBedPartBlock(originState, stateLess, level, pos);
-        else if (values.get(PART) != null && stateLess.getValues().get(PART) == null) {
+        return stateToSet;
+    }
+
+    /**
+     * 完美继承上一个方块的所有可以继承的属性并替换
+     */
+    // 记得测试一下双方块换为单方块还会不会掉落本体
+    public static void replaceBlockWithAllState(BlockState stateToBeInherited, BlockState stateToSet, Level level, BlockPos pos) {
+        var values = stateToBeInherited.getValues();
+        for (var entry : values.entrySet()) {
+            Property key = entry.getKey();
+            if (stateToSet.getValues().get(key) != null) {
+                Comparable value = entry.getValue();
+                stateToSet = stateToSet.setValue(key, value);
+            }
+        }
+        if (stateToSet.getValues().get(PART) != null && values.get(PART) != null) replaceBedPartBlock(stateToBeInherited, stateToSet, level, pos);
+        else if (values.get(PART) != null && stateToSet.getValues().get(PART) == null) {
             removeDoubleBlock(level, pos);
-            level.setBlock(pos, stateLess, 3);
+            level.setBlock(pos, stateToSet, 3);
             SolarMoonCore.DEBUG.send("已替换双方块至单方块");
         }
         else {
-            level.setBlock(pos, stateLess, 3);
+            level.setBlock(pos, stateToSet, 3);
             SolarMoonCore.DEBUG.send("已替换单方块");
         }
     }

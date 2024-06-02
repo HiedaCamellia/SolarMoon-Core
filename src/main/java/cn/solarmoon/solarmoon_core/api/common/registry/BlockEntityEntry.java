@@ -33,7 +33,12 @@ public class BlockEntityEntry<E extends BlockEntity> {
         return this;
     }
 
-    public final BlockEntityEntry<E> validBlock(Supplier<Block[]> validBlocks) {
+    public final BlockEntityEntry<E> validBlock(Supplier<Block> validBlock) {
+        this.validBlocks = () -> new Block[]{validBlock.get()};
+        return this;
+    }
+
+    public final BlockEntityEntry<E> validBlocks(Supplier<Block[]> validBlocks) {
         this.validBlocks = validBlocks;
         return this;
     }

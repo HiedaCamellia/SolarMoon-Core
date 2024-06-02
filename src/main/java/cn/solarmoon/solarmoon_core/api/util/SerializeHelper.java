@@ -4,6 +4,7 @@ import cn.solarmoon.solarmoon_core.api.common.recipe.serializable.ChanceResult;
 import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -108,10 +109,21 @@ public class SerializeHelper {
     }
 
     /**
-     * @return 默认读取完整的物品（原来的方法不会读取如capability的数据）
+     * @return 默认从json读取完整的物品（原来的方法不会读取如capability的数据）
      */
     public static ItemStack readItemStack(JsonObject json, String id) {
         return CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, id), true);
+    }
+
+    /**
+     * 此处有个默认值，当id不存在时返回一个默认的而不报错
+     * @return 默认从json读取完整的物品（原来的方法不会读取如capability的数据）
+     */
+    public static ItemStack readItemStack(JsonObject json, String id, ItemStack defaultItem) {
+        if (json.has(id)) {
+            return CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, id), true);
+        }
+        return defaultItem;
     }
 
     /**
@@ -124,10 +136,10 @@ public class SerializeHelper {
     }
 
     /**
-     * 默认发送完整物品
+     * 默认发送完整物品（真正意义上的完整）
      */
     public static void writeItemStack(FriendlyByteBuf buf, ItemStack stack) {
-        buf.writeNbt(stack.serializeNBT());
+        buf.writeNbt(stack.save(new CompoundTag()));
     }
 
     public static List<ItemStack> readItemStacks(JsonObject json, String id) {

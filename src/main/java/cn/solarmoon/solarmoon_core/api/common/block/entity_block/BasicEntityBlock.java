@@ -1,15 +1,16 @@
 package cn.solarmoon.solarmoon_core.api.common.block.entity_block;
 
 import cn.solarmoon.solarmoon_core.api.common.block.IBlockFunctionProvider;
-import cn.solarmoon.solarmoon_core.api.common.block.IHorizontalFacingBlock;
-import cn.solarmoon.solarmoon_core.api.common.block.IWaterLoggedBlock;
-import cn.solarmoon.solarmoon_core.api.common.ability.BasicEntityBlockTicker;
 import cn.solarmoon.solarmoon_core.api.common.block_entity.IContainerBlockEntity;
 import cn.solarmoon.solarmoon_core.api.common.block_entity.ITankBlockEntity;
+import cn.solarmoon.solarmoon_core.api.common.capability.IBlockEntityData;
+import cn.solarmoon.solarmoon_core.api.common.event.BasicEntityBlockTickEvent;
 import cn.solarmoon.solarmoon_core.api.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.api.util.FluidUtil;
+import cn.solarmoon.solarmoon_core.api.util.namespace.SolarNETList;
+import cn.solarmoon.solarmoon_core.core.common.registry.SolarCapabilities;
+import cn.solarmoon.solarmoon_core.core.common.registry.SolarNetPacks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -23,19 +24,20 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
- * 有基本的含水、朝向、设置对应方块实体功能的实体方块<br/>
+ * 有基本的设置对应方块实体功能的实体方块<br/>
  * 以及一个ticker<br/>
  * 默认情况下会自动同步客户端各种容器的信息、设置红石信号逻辑、-中键物品、打落物品会存有给类容器信息、放置方块会读取stack的信息设置各类容器信息<br/>
  * 还是 万 物 本 源
  */
-public abstract class BasicEntityBlock extends BaseEntityBlock implements IHorizontalFacingBlock, IWaterLoggedBlock, IBlockFunctionProvider {
+public abstract class BasicEntityBlock extends BaseEntityBlock implements IBlockFunctionProvider {
 
-    protected BasicEntityBlock(Properties properties) {
+    public BasicEntityBlock(Properties properties) {
         super(properties);
     }
 
@@ -91,12 +93,11 @@ public abstract class BasicEntityBlock extends BaseEntityBlock implements IHoriz
      */
     public void tick(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity) {
         if (!level.isClientSide) {
-            CompoundTag nbt = new CompoundTag();
-            //自定义同步
-            BasicEntityBlockTicker.ALL.forEach(ticker -> ticker.getSynchronizer().ifPresent(c -> c.accept(blockEntity, nbt)));
+            // 无时无刻从服务端同步信息到客户端
+            SolarNetPacks.CLIENT.getSender().send(SolarNETList.SYNC_BLOCK_ENTITY, pos, blockEntity.serializeNBT());
         }
-        //正常tick
-        BasicEntityBlockTicker.ALL.forEach(ticker -> ticker.getTicker().ifPresent(c -> c.accept(blockEntity)));
+        BasicEntityBlockTickEvent tickEvent = new BasicEntityBlockTickEvent(blockEntity);
+        MinecraftForge.EVENT_BUS.post(tickEvent);
     }
 
     /**
@@ -107,6 +108,7 @@ public abstract class BasicEntityBlock extends BaseEntityBlock implements IHoriz
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @javax.annotation.Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
         BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity == null) return;
         if (blockEntity instanceof IContainerBlockEntity c) {
             c.setInventory(stack);
         }

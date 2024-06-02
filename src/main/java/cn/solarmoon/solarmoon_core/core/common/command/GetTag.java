@@ -3,6 +3,7 @@ package cn.solarmoon.solarmoon_core.core.common.command;
 import cn.solarmoon.solarmoon_core.SolarMoonCore;
 import cn.solarmoon.solarmoon_core.api.common.command.BaseCommand;
 import com.mojang.brigadier.Command;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -33,7 +34,7 @@ public class GetTag extends BaseCommand {
         var tags = stack.getTags().collect(Collectors.toSet());
         List<String> strings = new ArrayList<>();
         tags.forEach(tag -> strings.add(tag.location().toString()));
-        SolarMoonCore.DEBUG.send(strings.toString());
+        player.sendSystemMessage(Component.literal(strings.toString()));
         return Command.SINGLE_SUCCESS;
     }
 

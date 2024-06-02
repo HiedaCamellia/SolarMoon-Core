@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.client.ability;
+package cn.solarmoon.solarmoon_core.api.client.event;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;

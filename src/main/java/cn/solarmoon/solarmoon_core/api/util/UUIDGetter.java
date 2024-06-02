@@ -4,6 +4,7 @@ import cn.solarmoon.solarmoon_core.core.common.registry.SolarAttributes;
 import net.minecraft.Util;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraftforge.common.ForgeMod;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class UUIDGetter {
 
     private static final Map<Attribute, UUID> MODIFIER_UUID_PER_ATTRIBUTE = Util.make(new HashMap<>(), (map) -> {
         map.put(SolarAttributes.THORNS.get(), UUID.fromString("52C60B59-E3C9-A909-EF70-2BB023E1479D"));
+        map.put(ForgeMod.STEP_HEIGHT_ADDITION.get(), UUID.fromString("9EB54628-50A8-BA00-2EB4-F9781735A1B1"));
     });
 
     public static UUID get(ArmorItem.Type type) {

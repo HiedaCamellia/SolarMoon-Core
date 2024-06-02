@@ -1,22 +1,15 @@
 package cn.solarmoon.solarmoon_core.api.common.block_entity;
 
-import cn.solarmoon.solarmoon_core.api.common.block.IBlockUseCaller;
 import cn.solarmoon.solarmoon_core.api.util.LevelSummonUtil;
 import cn.solarmoon.solarmoon_core.api.util.namespace.SolarNBTList;
 import cn.solarmoon.solarmoon_core.api.util.namespace.SolarNETList;
 import cn.solarmoon.solarmoon_core.core.common.registry.SolarNetPacks;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
@@ -136,8 +129,10 @@ public interface IContainerBlockEntity {
         ItemStack heldItem = player.getItemInHand(hand);
         if (heldItem.isEmpty() && !getStacks().isEmpty()) {
             ItemStack result = extractItem(count);
-            if (!player.isCreative()) LevelSummonUtil.addItemToInventory(player, result);
-            return true;
+            if (!result.isEmpty()) {
+                if (!player.isCreative()) LevelSummonUtil.addItemToInventory(player, result);
+                return true;
+            }
         }
         return false;
     }
@@ -162,19 +157,16 @@ public interface IContainerBlockEntity {
         ItemStack heldItem = player.getItemInHand(hand);
         if (!heldItem.isEmpty()) {
             if (player.isCrouching()) {
-                return putItem(player, hand, heldItem.getCount());
-            } else putItem(player, hand, 1);
-        } else {
-            if (player.isCrouching()) {
-                return takeItem(player, hand, 64);
+                return this.putItem(player, hand, heldItem.getCount());
             } else {
-                return takeItem(player, hand, 1);
+                return this.putItem(player, hand, 1);
             }
+        } else {
+            return player.isCrouching() ? this.takeItem(player, hand, 64) : this.takeItem(player, hand, 1);
         }
-        return false;
     }
 
-    default void clear() {
+    default void clearInv() {
         getStacks().forEach(stack -> stack.setCount(0));
     }
 
@@ -186,7 +178,7 @@ public interface IContainerBlockEntity {
         if (blockEntity.getLevel() != null && blockEntity.getLevel().isClientSide) {
             SolarNetPacks.SERVER.getSender().send(SolarNETList.PUMP, blockEntity.getBlockPos(), getStacks(), List.of(positionAddon));
         }
-        clear();
+        clearInv();
         ((BlockEntity)this).setChanged();
     }
 

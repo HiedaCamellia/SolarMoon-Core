@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack, List<ItemStack> stacks, CompoundTag tag, FluidStack fluidStack, float f, int[] ints, List<Vec3> vec3List, String string) {
+public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack, List<ItemStack> stacks,
+                                   CompoundTag tag, FluidStack fluidStack, float f, int[] ints, List<Vec3> vec3List, boolean flag,
+                                   String string) {
 
     public void encode(FriendlyByteBuf buf) {
         buf.writeUtf(message);
@@ -28,6 +30,7 @@ public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack
         buf.writeFloat(f);
         buf.writeVarIntArray(ints);
         SerializeHelper.writeVec3List(buf, vec3List);
+        buf.writeBoolean(flag);
         buf.writeUtf(string);
     }
 
@@ -41,8 +44,9 @@ public record ServerPackSerializer(String message, BlockPos pos, ItemStack stack
         float f = buf.readFloat();
         int[] ints = buf.readVarIntArray();
         List<Vec3> vec3List = SerializeHelper.readVec3List(buf);
+        boolean flag = buf.readBoolean();
         String string = buf.readUtf();
-        return new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string);
+        return new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string);
     }
 
     public static void handle(ServerPackSerializer packet, Supplier<NetworkEvent.Context> supplier) {

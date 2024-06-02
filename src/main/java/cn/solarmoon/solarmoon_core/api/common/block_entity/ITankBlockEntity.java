@@ -20,7 +20,9 @@ public interface ITankBlockEntity {
 
     FluidTank getTank();
 
-    int getMaxCapacity();
+    default int getMaxCapacity() {
+        return getTank().getCapacity();
+    };
 
     /**
      * 一个强制设置储罐内容物的方法
@@ -74,6 +76,10 @@ public interface ITankBlockEntity {
      */
     default boolean loadFluid(Player player, InteractionHand hand, boolean playSound) {
         return putFluid(player, hand, playSound) || takeFluid(player, hand, playSound);
+    }
+
+    default void clearTank() {
+        getTank().setFluid(FluidStack.EMPTY);
     }
 
 }

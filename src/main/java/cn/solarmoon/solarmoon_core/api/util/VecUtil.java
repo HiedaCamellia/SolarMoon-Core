@@ -1,5 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -57,6 +58,31 @@ public class VecUtil {
         double z1 = Math.min(rangePoint1.z, rangePoint2.z);
         double z2 = Math.max(rangePoint1.z, rangePoint2.z);
         return x1 <= point.x && point.x <= x2 && y1 <= point.y && point.y <= y2 && z1 <= point.z && point.z <= z2; //立体矩形范围判别
+    }
+
+    /**
+     * @param vec 落点
+     * @param pos 比较的方块坐标
+     * @return 判断vec3落点是否在这个pos所在1x1x1大小的方块的内部
+     */
+    public static boolean isInside(Vec3 vec, BlockPos pos) {
+        double x = vec.x - pos.getX();
+        double y = vec.y - pos.getY();
+        double z = vec.z - pos.getZ();
+        return x > 0 && x < 1 && y > 0 && y < 1 && z > 0 && z < 1;
+    }
+
+    /**
+     * @param vec 落点
+     * @param pos 比较的方块坐标
+     * @return 判断vec3落点是否在这个pos所在指定顶点大小的方块的内部
+     */
+    public static boolean isInside(Vec3 vec, BlockPos pos, double xMin, double yMin, double zMin, double xMax, double yMax, double zMax, boolean border) {
+        double x = vec.x - pos.getX();
+        double y = vec.y - pos.getY();
+        double z = vec.z - pos.getZ();
+        if (border) return x >= xMin && x <= xMax && y >= yMin && y <= yMax && z >= zMin && z <= zMax;
+        return x > xMin && x < xMax && y > yMin && y < yMax && z > zMin && z < zMax;
     }
 
 }

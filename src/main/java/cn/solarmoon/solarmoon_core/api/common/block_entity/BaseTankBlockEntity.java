@@ -16,22 +16,14 @@ public abstract class BaseTankBlockEntity extends BlockEntity implements ITankBl
 
     private final FluidTank tank;
 
-    private final int maxCapacity;
-
     public BaseTankBlockEntity(BlockEntityType<?> type, int maxCapacity, BlockPos pos, BlockState state) {
         super(type, pos, state);
-        this.maxCapacity = maxCapacity;
         this.tank = new FluidTank(maxCapacity);
     }
 
     @Override
     public FluidTank getTank() {
         return tank;
-    }
-
-    @Override
-    public int getMaxCapacity() {
-        return maxCapacity;
     }
 
 }

@@ -1,10 +1,7 @@
 package cn.solarmoon.solarmoon_core.core.common.registry;
 
 import cn.solarmoon.solarmoon_core.api.common.registry.BaseCommonEventRegistry;
-import cn.solarmoon.solarmoon_core.core.common.event.BlockUseManager;
-import cn.solarmoon.solarmoon_core.core.common.event.CounterInjuryEvent;
-import cn.solarmoon.solarmoon_core.core.common.event.PlayerTickEvent;
-import cn.solarmoon.solarmoon_core.core.common.event.UseRecipeEvent;
+import cn.solarmoon.solarmoon_core.core.common.event.*;
 
 public class SolarCommonEvents extends BaseCommonEventRegistry {
 
@@ -14,6 +11,8 @@ public class SolarCommonEvents extends BaseCommonEventRegistry {
         add(new UseRecipeEvent());
         add(new BlockUseManager());
         add(new PlayerTickEvent());
+        add(new IAnimateTickerEvent());
+        add(new BlockEntityDataHolder());
     }
 
 }

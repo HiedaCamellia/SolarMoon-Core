@@ -6,6 +6,7 @@ package cn.solarmoon.solarmoon_core.api.common.block_entity.iutor;
  * 使用setChanged可以把tick归0<br/>
  * 接入者需要实现private int ticks以传入
  */
+@Deprecated
 public interface IBlockEntityAnimateTicker {
 
     int getTicks();

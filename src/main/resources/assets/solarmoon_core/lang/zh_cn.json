@@ -1,5 +1,6 @@
 {
   "attribute.solarmoon_core.thorns": "荆棘反伤",
+  "attribute.solarmoon_core.step_height": "抬升高度",
 
   "death.attack.solarmoon_core.thorns": "%s死于误触%s尖锐的身体",
 

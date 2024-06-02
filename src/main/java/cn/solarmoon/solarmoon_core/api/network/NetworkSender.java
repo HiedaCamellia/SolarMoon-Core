@@ -28,6 +28,7 @@ public class NetworkSender {
     private final float f = 0;
     private final int[] ints = new int[0];
     private final List<Vec3> vec3List = new ArrayList<>();
+    private final boolean flag = false;
     private final String string = "";
 
     public NetworkSender(NetPackEntry pack) {
@@ -37,163 +38,190 @@ public class NetworkSender {
 
     public void send(String message) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
+        }
+    }
+
+    public void send(String message, BlockPos pos, boolean flag) {
+        if (side == NetPackEntry.Side.CLIENT) {
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
+        }
+        if (side == NetPackEntry.Side.SERVER) {
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, List<Vec3> vec3List) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, float f) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, ItemStack stack) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, String string) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, float f, String string) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, float f, ItemStack stack) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
+        }
+    }
+
+    public void send(String message, float f, int[] ints) {
+        if (side == NetPackEntry.Side.CLIENT) {
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
+        }
+        if (side == NetPackEntry.Side.SERVER) {
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, ItemStack stack, CompoundTag tag) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, FluidStack fluidStack, List<Vec3> vec3List) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, List<Vec3> vec3List, ItemStack stack) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, int[] ints) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, List<ItemStack> stacks) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, CompoundTag tag) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, float f) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
+        }
+    }
+
+    public void send(String message, BlockPos pos, FluidStack fluidStack) {
+        if (side == NetPackEntry.Side.CLIENT) {
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
+        }
+        if (side == NetPackEntry.Side.SERVER) {
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, ItemStack stack) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, ItemStack stack, float f) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 
     public void send(String message, BlockPos pos, List<ItemStack> stacks, List<Vec3> vec3List) {
         if (side == NetPackEntry.Side.CLIENT) {
-            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.send(PacketDistributor.ALL.noArg(), new ClientPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
         if (side == NetPackEntry.Side.SERVER) {
-            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, string));
+            channel.sendToServer(new ServerPackSerializer(message, pos, stack, stacks, tag, fluidStack, f, ints, vec3List, flag, string));
         }
     }
 

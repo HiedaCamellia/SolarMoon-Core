@@ -60,9 +60,9 @@ public interface IOptionalRecipeItem<T extends Recipe<RecipeWrapper>> {
     /**
      * 根据玩家目视方块的匹配逻辑来获取对应的匹配配方的集合
      */
-    default List<T> getMatchingRecipes(Player player) {
+    default List<T> getMatchingRecipes(Player player, double rayLength) {
         Level level = player.level();
-        BlockHitResult hit = HitResultUtil.getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.NONE);
+        BlockHitResult hit = HitResultUtil.getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.NONE, rayLength);
         BlockPos pos = hit.getBlockPos();
         BlockState hitState = level.getBlockState(pos);
         List<T> recipes = level.getRecipeManager().getAllRecipesFor(this.getRecipeType());
@@ -70,6 +70,13 @@ public interface IOptionalRecipeItem<T extends Recipe<RecipeWrapper>> {
                 .filter((recipe) -> this.recipeMatches(recipe, hitState, level, hit, player))
                 .sorted(Comparator.comparing(recipe -> recipe.getId().getPath())) //必须进行排序，否则会导致gui的列表和此列表顺序不一致
                 .toList();
+    }
+
+    /**
+     * 根据玩家目视方块的匹配逻辑来获取对应的匹配配方的集合
+     */
+    default List<T> getMatchingRecipes(Player player) {
+        return getMatchingRecipes(player, player.getBlockReach());
     }
 
     /**

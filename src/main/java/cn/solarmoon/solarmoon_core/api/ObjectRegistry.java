@@ -1,7 +1,5 @@
 package cn.solarmoon.solarmoon_core.api;
 
-import cn.solarmoon.solarmoon_core.api.common.ability.BasicEntityBlockTicker;
-import cn.solarmoon.solarmoon_core.api.common.ability.BlockEntityDataHolder;
 import cn.solarmoon.solarmoon_core.api.client.registry.LayerEntry;
 import cn.solarmoon.solarmoon_core.api.client.registry.ParticleEntry;
 import cn.solarmoon.solarmoon_core.api.common.registry.*;
@@ -38,7 +36,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jline.terminal.MouseEvent;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -189,16 +186,6 @@ public class ObjectRegistry {
 
     public SolarConfigBuilder configBuilder(ModConfig.Type type) {
         return SolarConfigBuilder.create().modId(modId).side(type);
-    }
-
-    // 能力部分
-
-    public <T> BasicEntityBlockTicker<T> basicEntityBlockTicker(Class<T> type) {
-        return BasicEntityBlockTicker.create(type);
-    }
-
-    public <T> BlockEntityDataHolder<T> blockEntityDataHolder(Class<T> type) {
-        return BlockEntityDataHolder.create(type);
     }
 
 }

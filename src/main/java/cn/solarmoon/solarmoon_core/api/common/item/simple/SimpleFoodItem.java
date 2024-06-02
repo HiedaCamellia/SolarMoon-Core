@@ -12,6 +12,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -65,11 +66,12 @@ public class SimpleFoodItem extends Item {
         super.appendHoverText(stack, level, components, flag);
         if (showEffectTooltip() && getFoodProperties(stack, null) != null) {
             var effects = Objects.requireNonNull(getFoodProperties(stack, null)).getEffects();
+            List<MobEffectInstance> effectInstances = new ArrayList<>();
             for (Pair<MobEffectInstance, Float> mobEffectInstanceFloatPair : effects) {
                 var effect = mobEffectInstanceFloatPair.getFirst();
-                Component base = TextUtil.getMinuteFormatEffectDuration(effect);
-                components.add(base);
+                effectInstances.add(effect);
             }
+            TextUtil.addPotionTooltipWithoutAttribute(effectInstances, components);
         }
     }
 

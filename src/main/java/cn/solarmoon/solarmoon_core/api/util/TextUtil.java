@@ -4,9 +4,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.StringUtil;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class TextUtil {
 
@@ -24,24 +29,12 @@ public class TextUtil {
         return thousands + hundreds + tens + ones;
     }
 
-    public static String toMinuteFormat(int i) {
-        int seconds = i;
-        int minutes = seconds / 60;
-        seconds = seconds % 60;
-        return String.format("%02d:%02d", minutes, seconds);
-    }
-
     /**
      * @return 如果有小数就保留两位小数，没有就不写
      */
     public static String decimalRetentionOrNot(float f) {
         DecimalFormat df = new DecimalFormat("0.##");
         return df.format(f);
-    }
-
-    public static String toMinuteFormat(int second, boolean needBracket) {
-        if (needBracket) return "(" + toMinuteFormat(second) + ")";
-        else return toMinuteFormat(second);
     }
 
     /**
@@ -81,16 +74,36 @@ public class TextUtil {
     }
 
     /**
-     * @return 获取对应效果的原版样式的以分秒为单位的药水效果提示内容
+     * @return 添加如药水效果一样的工具提示（如：着火（00:10））
      */
-    public static Component getMinuteFormatEffectDuration(MobEffectInstance effect) {
-        String name = effect.getEffect().getDisplayName().getString();
-        String time = effect.getDuration() < 20 ? "" : " " + TextUtil.toMinuteFormat(effect.getDuration() / 20, true);
-        int amplifier = effect.getAmplifier() + 1;
-        String levelRoman = amplifier == 1 ? "" : " " + TextUtil.toRoman(amplifier);
-        return Component.literal(name + levelRoman + time).withStyle(ChatFormatting.BLUE);
-        //小于1秒的不显示时间，视为瞬间作用的效果类型
-        //等于1级的不显示等级，因为原版就不显示
+    public static Component getPotionLikeTooltip(Component name, int tickDuration) {
+        return Component.translatable(
+                "potion.withDuration",
+                name.copy(),
+                StringUtil.formatTickDuration(tickDuration)).withStyle(ChatFormatting.BLUE);
+    }
+
+    /**
+     * 同 {@link net.minecraft.world.item.alchemy.PotionUtils} 但是不会写出末尾的属性（如 生效后：抬升高度+1）
+     */
+    public static void addPotionTooltipWithoutAttribute(List<MobEffectInstance> effects, List<Component> components) {
+        if (!effects.isEmpty()) {
+            for(MobEffectInstance mobeffectinstance : effects) {
+                MutableComponent mutablecomponent = Component.translatable(mobeffectinstance.getDescriptionId());
+                MobEffect mobeffect = mobeffectinstance.getEffect();
+
+                if (mobeffectinstance.getAmplifier() > 0) {
+                    mutablecomponent = Component.translatable("potion.withAmplifier", mutablecomponent, Component.translatable("potion.potency." + mobeffectinstance.getAmplifier()));
+                }
+
+                if (!mobeffectinstance.endsWithin(20)) {
+                    mutablecomponent = Component.translatable("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(mobeffectinstance, 1));
+                }
+
+                components.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
+            }
+        }
+
     }
 
 }
