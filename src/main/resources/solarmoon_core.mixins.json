@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8.5",
-  "package": "cn.solarmoon.solarmoon_core.core.mixin",
+  "package": "cn.solarmoon.solarmoon_core.mixin",
   "refmap": "solarmoon_core.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
@@ -9,6 +9,8 @@
     "AnvilMenuMixin",
     "BlockEntityMixin",
     "BlockMixin",
+    "FluidBucketWrapperMixin",
+    "FluidTypeMixin",
     "ItemMixin"
   ],
   "client": [

@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
-import cn.solarmoon.solarmoon_core.core.common.recipe.AttributeForgingRecipe;
+import cn.solarmoon.solarmoon_core.feature.embedding.AttributeForgingRecipe;
 import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;

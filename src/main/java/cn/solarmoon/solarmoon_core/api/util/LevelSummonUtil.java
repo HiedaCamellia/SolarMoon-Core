@@ -133,6 +133,7 @@ public class LevelSummonUtil {
 
     /**
      * 像give一样给玩家添加物品，如果没能成功，则将物品以掉落物的形式给到玩家身边
+     * Forge：ItemHandlerHelper方法一致
      */
     public static void addItemToInventory(Player player, ItemStack stack) {
         boolean result = player.addItem(stack);

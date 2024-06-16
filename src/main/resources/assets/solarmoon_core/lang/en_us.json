@@ -1,6 +1,5 @@
 {
   "attribute.solarmoon_core.thorns": "Thorn Strike",
-  "attribute.solarmoon_core.step_height": "Step Height",
 
   "death.attack.solarmoon_core.thorns": "%s died by accidental contact with the thorned body of %s",
 

@@ -1,12 +1,12 @@
 package cn.solarmoon.solarmoon_core;
 
-import cn.solarmoon.solarmoon_core.api.ObjectRegistry;
-import cn.solarmoon.solarmoon_core.api.SolarMoonBase;
-import cn.solarmoon.solarmoon_core.api.util.static_utor.Debug;
-import cn.solarmoon.solarmoon_core.api.util.static_utor.Translator;
-import cn.solarmoon.solarmoon_core.core.client.registry.SolarTooltips;
-import cn.solarmoon.solarmoon_core.core.common.config.SolarConfig;
-import cn.solarmoon.solarmoon_core.core.common.registry.*;
+import cn.solarmoon.solarmoon_core.api.entry.ObjectRegistry;
+import cn.solarmoon.solarmoon_core.api.static_utor.Debug;
+import cn.solarmoon.solarmoon_core.api.static_utor.Translator;
+import cn.solarmoon.solarmoon_core.data.SolarConfig;
+import cn.solarmoon.solarmoon_core.feature.SolarMoonBase;
+import cn.solarmoon.solarmoon_core.registry.client.SolarTooltips;
+import cn.solarmoon.solarmoon_core.registry.common.*;
 import net.minecraftforge.fml.common.Mod;
 
 import static cn.solarmoon.solarmoon_core.SolarMoonCore.MOD_ID;
@@ -27,7 +27,6 @@ public class SolarMoonCore extends SolarMoonBase {
 
     @Override
     public void objects() {
-        SolarItems.register();
         SolarNetPacks.register();
         SolarAttributes.register();
         SolarDamageTypes.register();

@@ -1,6 +1,5 @@
 package cn.solarmoon.solarmoon_core.api.compat.jei;
 
-import cn.solarmoon.solarmoon_core.api.compat.jei.category.BaseJEICategory;
 import cn.solarmoon.solarmoon_core.api.compat.jei.element.EmptyBackground;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;

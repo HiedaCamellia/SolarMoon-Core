@@ -1,6 +1,5 @@
 package cn.solarmoon.solarmoon_core.api.network;
 
-import cn.solarmoon.solarmoon_core.api.network.serializer.ServerPackSerializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -28,14 +27,15 @@ public interface IServerPackHandler {
         int[] ints = packet.ints();
         List<Vec3> vec3List = packet.vec3List();
         boolean flag = packet.flag();
+        int i = packet.i();
         String string = packet.string();
         //处理
-        handle(player, level, pos, stack, tag, fluidStack, f, ints, string, stacks, vec3List, flag, packet.message());
+        handle(player, level, pos, stack, tag, fluidStack, f, ints, string, stacks, vec3List, flag, i, packet.message());
     }
 
     /**
      * 对包进行处理，建议使用switch(message)进行识别
      */
-    void handle(ServerPlayer player, ServerLevel level, BlockPos pos, ItemStack stack, CompoundTag tag, FluidStack fluidStack, float f, int[] ints, String string, List<ItemStack> stacks, List<Vec3> vec3List, boolean flag, String message);
+    void handle(ServerPlayer player, ServerLevel level, BlockPos pos, ItemStack stack, CompoundTag tag, FluidStack fluidStack, float f, int[] ints, String string, List<ItemStack> stacks, List<Vec3> vec3List, boolean flag, int i, String message);
 
 }

@@ -1,6 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
-import cn.solarmoon.solarmoon_core.core.common.registry.SolarAttributes;
+import cn.solarmoon.solarmoon_core.registry.common.SolarAttributes;
 import net.minecraft.Util;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.ArmorItem;

@@ -13,6 +13,8 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
  */
 public class FluidUtil {
 
+    public static final String FLUID = "Fluid";
+
     /**
      * 获取物品容器内的fluidTank
      */
@@ -46,9 +48,9 @@ public class FluidUtil {
     /**
      * 根据液体容量获取大小百分比
      */
-    public static float getScale(FluidTank tank) {
-        int stored = tank.getFluidAmount();
-        int capacity = tank.getCapacity();
+    public static float getScale(IFluidHandler tank) {
+        int stored = tank.getFluidInTank(0).getAmount();
+        int capacity = tank.getTankCapacity(0);
         return (float) stored / capacity;
     }
 

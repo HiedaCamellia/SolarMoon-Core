@@ -1,7 +1,6 @@
 package cn.solarmoon.solarmoon_core.api.util;
 
-import cn.solarmoon.solarmoon_core.api.common.block_entity.IContainerBlockEntity;
-import cn.solarmoon.solarmoon_core.api.util.namespace.SolarNBTList;
+import cn.solarmoon.solarmoon_core.api.blockentity_util.IContainerBE;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -10,19 +9,21 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class ContainerUtil {
 
+    public static final String INVENTORY = "Inventory";
+
     /**
      * 把方块实体物品信息存入containerItem
      */
     public static void setInventory(ItemStack stack, BlockEntity blockEntity) {
         ItemStackHandler inventory = (ItemStackHandler) blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
-        stack.getOrCreateTag().put(SolarNBTList.INVENTORY, inventory.serializeNBT());
+        stack.getOrCreateTag().put(INVENTORY, inventory.serializeNBT());
     }
 
     /**
      * 把现成的物品信息存入containerItem
      */
     public static void setInventory(ItemStack stack, ItemStackHandler inventory) {
-        stack.getOrCreateTag().put(SolarNBTList.INVENTORY, inventory.serializeNBT());
+        stack.getOrCreateTag().put(INVENTORY, inventory.serializeNBT());
     }
 
     /**
@@ -33,8 +34,8 @@ public class ContainerUtil {
     public static ItemStackHandler getInventory(ItemStack stack) {
         ItemStackHandler inventory = new ItemStackHandler();
         CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains(SolarNBTList.INVENTORY)) {
-            inventory.deserializeNBT(tag.getCompound(SolarNBTList.INVENTORY));
+        if (tag != null && tag.contains(INVENTORY)) {
+            inventory.deserializeNBT(tag.getCompound(INVENTORY));
         }
         return inventory;
     }
@@ -45,8 +46,8 @@ public class ContainerUtil {
     public static ItemStackHandler getOrCreateInventory(ItemStack stack) {
         ItemStackHandler inventory = new ItemStackHandler();
         CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains(SolarNBTList.INVENTORY)) {
-            inventory.deserializeNBT(tag.getCompound(SolarNBTList.INVENTORY));
+        if (tag != null && tag.contains(INVENTORY)) {
+            inventory.deserializeNBT(tag.getCompound(INVENTORY));
         } else {
             setInventory(stack, inventory);
         }
@@ -106,7 +107,7 @@ public class ContainerUtil {
      * @return 获取物品容器内已有物品量占物品最大容量的比例（容量比）
      */
     public static float getScale(BlockEntity blockEntity) {
-        if (blockEntity instanceof IContainerBlockEntity containerTile) {
+        if (blockEntity instanceof IContainerBE containerTile) {
             return (float) containerTile.getStacksAmount() / containerTile.maxStackCount();
         }
         return 0;
