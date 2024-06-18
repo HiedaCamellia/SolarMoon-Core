@@ -105,7 +105,7 @@ public class FluidUtil {
     public static boolean isMatch(FluidStack fluid1, FluidStack fluid2, boolean compareAmount, boolean compareNBT) {
         boolean amountMatch = !compareAmount || fluid1.getAmount() == fluid2.getAmount();
         boolean NBTMatch = !compareNBT || fluid1.getTag().equals(fluid2.getTag());
-        boolean typeMatch = fluid1.equals(fluid2);
+        boolean typeMatch = fluid1.getFluid() == fluid2.getFluid();
         return typeMatch && amountMatch && NBTMatch;
     }
 

@@ -33,6 +33,7 @@ public class FluidEntry {
     private Supplier<FlowingFluid> stillSupplier;
     private Supplier<FlowingFluid> flowingSupplier;
     private Supplier<Item> bucketSupplier;
+    private Supplier<FluidType> fluidTypeSupplier;
     private RegistryObject<LiquidBlock> fluidBlock;
     private RegistryObject<FlowingFluid> fluidFlowing;
     private RegistryObject<FlowingFluid> fluidStill;
@@ -84,72 +85,82 @@ public class FluidEntry {
         return this;
     }
 
+    public FluidEntry fluidType(Supplier<FluidType> fluidTypeSupplier) {
+        this.fluidTypeSupplier = fluidTypeSupplier;
+        return this;
+    }
+
     public FluidEntry build() {
         fluidBlock = blockRegister.register(id, blockSupplier);
         fluidStill = fluidRegister.register(id, stillSupplier);
         fluidFlowing = fluidRegister.register(id + "_flowing", flowingSupplier);
         if (bucketSupplier != null) fluidBucket = itemRegister.register(id + "_bucket", bucketSupplier);
-        if (defaultSprite) {
-            this.spriteStill = new ResourceLocation("minecraft:block/water" + "_still");
-            this.spriteFlowing = new ResourceLocation("minecraft:block/water" + "_flow");
-            this.spriteOverlay = new ResourceLocation(modId + ":textures/misc/" + id + "_under.png");
-            fluidType = fluidTypeRegister.register(id, () -> new FluidType(FluidType.Properties.create()) {
-                @Override
-                public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-                    consumer.accept(new IClientFluidTypeExtensions() {
-                        @Override
-                        public ResourceLocation getStillTexture() {
-                            return spriteStill;
-                        }
+        if (fluidTypeSupplier == null) {
+            if (defaultSprite) {
+                this.spriteStill = new ResourceLocation("minecraft:block/water" + "_still");
+                this.spriteFlowing = new ResourceLocation("minecraft:block/water" + "_flow");
+                this.spriteOverlay = new ResourceLocation(modId + ":textures/misc/" + id + "_under.png");
+                fluidType = fluidTypeRegister.register(id, () -> new FluidType(FluidType.Properties.create()) {
+                    @Override
+                    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                        consumer.accept(new IClientFluidTypeExtensions() {
+                            @Override
+                            public ResourceLocation getStillTexture() {
+                                return spriteStill;
+                            }
 
-                        @Override
-                        public ResourceLocation getFlowingTexture() {
-                            return spriteFlowing;
-                        }
+                            @Override
+                            public ResourceLocation getFlowingTexture() {
+                                return spriteFlowing;
+                            }
 
-                        @Override
-                        public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
-                            return spriteOverlay;
-                        }
+                            @Override
+                            public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
+                                return spriteOverlay;
+                            }
 
-                        @Override
-                        public int getTintColor() {
-                            return color;
-                        }
-                    });
-                }
-            });
-        } else {
-            this.spriteStill = new ResourceLocation(modId + ":block/fluid/" + id + "_still");
-            this.spriteFlowing = new ResourceLocation(modId + ":block/fluid/" + id + "_flow");
-            this.spriteOverlay = new ResourceLocation(modId + ":textures/misc/" + id + "_under.png");
-            fluidType = fluidTypeRegister.register(id, () -> new FluidType(FluidType.Properties.create()) {
-                @Override
-                public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-                    consumer.accept(new IClientFluidTypeExtensions() {
+                            @Override
+                            public int getTintColor() {
+                                return color;
+                            }
+                        });
+                    }
+                });
+            } else {
+                this.spriteStill = new ResourceLocation(modId + ":block/fluid/" + id + "_still");
+                this.spriteFlowing = new ResourceLocation(modId + ":block/fluid/" + id + "_flow");
+                this.spriteOverlay = new ResourceLocation(modId + ":textures/misc/" + id + "_under.png");
+                fluidType = fluidTypeRegister.register(id, () -> new FluidType(FluidType.Properties.create()) {
+                    @Override
+                    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                        consumer.accept(new IClientFluidTypeExtensions() {
 
-                        @Override
-                        public ResourceLocation getStillTexture() {
-                            return spriteStill;
-                        }
+                            @Override
+                            public ResourceLocation getStillTexture() {
+                                return spriteStill;
+                            }
 
-                        @Override
-                        public ResourceLocation getFlowingTexture() {
-                            return spriteFlowing;
-                        }
+                            @Override
+                            public ResourceLocation getFlowingTexture() {
+                                return spriteFlowing;
+                            }
 
-                        @Override
-                        public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
-                            return spriteOverlay;
-                        }
+                            @Override
+                            public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
+                                return spriteOverlay;
+                            }
 
-                        @Override
-                        public int getTintColor() {
-                            return color;
-                        }
-                    });
-                }
-            });
+                            @Override
+                            public int getTintColor() {
+                                return color;
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        else {
+            fluidType = fluidTypeRegister.register(id, fluidTypeSupplier);
         }
         return this;
     }
