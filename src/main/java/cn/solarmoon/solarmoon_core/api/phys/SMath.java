@@ -35,7 +35,14 @@ public class SMath {
         return  P0 * (1-f) + P1 * f;
     }
 
-    // 抛物线函数
+    /**
+     * 抛物线函数
+     * @param x 当前x值（当前点所在抛物线的位置）
+     * @param vertexX 顶点x坐标
+     * @param vertexY 顶点y坐标
+     * @param initialY 初始y坐标
+     * @return 当前x值所对应点的y值
+     */
     public static double parabolaFunction(double x, double vertexX, double vertexY, double initialY) {
         // a 是抛物线的开口方向和宽度，由顶点和初始值决定
         double a = (initialY - vertexY) / Math.pow((0 - vertexX), 2);
