@@ -1,0 +1,7 @@
+Java Launcher: C:\Program Files\Java\jdk-17\bin\java.exe
+Arguments: '--inJar, C:\Users\15236\IdeaProjects\SolarMoon-Core\build\fg_cache\net\minecraftforge\forge\1.20.1-47.1.3\forge-1.20.1-47.1.3-injected.jar, --outJar, C:\Users\15236\IdeaProjects\SolarMoon-Core\build\fg_cache\net\minecraftforge\forge\1.20.1-47.1.3_mapped_official_1.20.1\forge-1.20.1-47.1.3_mapped_official_1.20.1.jar, --logFile, accesstransform.log, --atFile, C:\Users\15236\IdeaProjects\SolarMoon-Core\src\main\resources\META-INF\accesstransformer.cfg, --atFile, C:\Users\15236\IdeaProjects\SolarMoon-Core\build\_atJar_4\parent_at.cfg'
+Classpath:
+ - C:\Users\15236\.gradle\caches\forge_gradle\maven_downloader\net\minecraftforge\accesstransformers\8.2.0\accesstransformers-8.2.0-fatjar.jar
+Working directory: C:\Users\15236\IdeaProjects\SolarMoon-Core\build\_atJar_4
+Main class: net.minecraftforge.accesstransformer.TransformerProcessor
+====================================

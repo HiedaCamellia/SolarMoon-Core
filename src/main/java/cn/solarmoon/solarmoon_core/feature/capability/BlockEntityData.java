@@ -32,7 +32,9 @@ public class BlockEntityData implements ICapabilitySerializable<CompoundTag>, IB
 
     public void tick() {
         for (var animTicker : animTickerMap.values()) {
-            animTicker.tick();
+            for (int i = 0; i < animTicker.getFactor(); i++) {
+                animTicker.tick();
+            }
         }
     }
 

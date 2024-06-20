@@ -12,5 +12,6 @@ public class NETList {
     public static final String SYNC_ANIM_ENABLED = "syncAnimEnabled";
     public static final String SYNC_ANIM_CHANGED = "syncAnimChanged";
     public static final String SYNC_ANIM_FLUID = "syncAnimFluid";
+    public static final String SYNC_ANIM_FACTOR = "syncAnimFactor";
 
 }

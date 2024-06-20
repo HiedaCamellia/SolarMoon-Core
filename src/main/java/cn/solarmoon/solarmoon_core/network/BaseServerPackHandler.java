@@ -57,6 +57,12 @@ public class BaseServerPackHandler implements IServerPackHandler {
                     blockEntity.getCapability(SolarCapabilities.BLOCK_ENTITY_DATA).ifPresent(data -> data.getAnimTicker(i).setStartOnChanged(flag));
                 }
             }
+            case NETList.SYNC_ANIM_FACTOR -> {
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (blockEntity != null) {
+                    blockEntity.getCapability(SolarCapabilities.BLOCK_ENTITY_DATA).ifPresent(data -> data.getAnimTicker(i).setFactor((int) f));
+                }
+            }
         }
     }
 }

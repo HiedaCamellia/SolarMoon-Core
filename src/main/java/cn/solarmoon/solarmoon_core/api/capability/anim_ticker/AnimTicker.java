@@ -15,6 +15,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
     private final BlockEntity blockEntity;
     private boolean enabled;
     private int ticks;
+    private int factor;
     private int maxTick;
     private float fixedValue;
     private FluidStack fixedFluid;
@@ -22,6 +23,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
     public AnimTicker(int index, BlockEntity blockEntity) {
         this.index = index;
         this.blockEntity = blockEntity;
+        factor = 1;
         maxTick = 100;
         fixedFluid = FluidStack.EMPTY;
     }
@@ -54,6 +56,23 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
                     .send(NETList.SYNC_ANIM_TICK);
         }
         this.ticks = ticks;
+    }
+
+    public void setFactor(int factor) {
+        Level level = blockEntity.getLevel();
+        if (level == null) return;
+        if (level.isClientSide) {
+            SolarNetPacks.SERVER.getSender()
+                    .pos(blockEntity.getBlockPos())
+                    .f(factor)
+                    .i(index)
+                    .send(NETList.SYNC_ANIM_FACTOR);
+        }
+        this.factor = factor;
+    }
+
+    public int getFactor() {
+        return factor;
     }
 
     public void setMaxTick(int maxTick) {
