@@ -1,8 +1,6 @@
-package cn.solarmoon.solarmoon_core.api.blockentity_util;
+package cn.solarmoon.solarmoon_core.api.tile;
 
 import cn.solarmoon.solarmoon_core.api.event.BlockEntityDataEvent;
-import cn.solarmoon.solarmoon_core.api.tile.IContainerTile;
-import cn.solarmoon.solarmoon_core.api.tile.ITankTile;
 import cn.solarmoon.solarmoon_core.api.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.api.util.FluidUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -18,18 +16,18 @@ public class BlockEntityDataHolder {
         BlockEntity be = event.getBlockEntity();
         CompoundTag tag = event.getTag();
         if (be instanceof IContainerTile c) {
-            tag.put(ContainerUtil.INVENTORY, c.getInventory().serializeNBT());
+            tag.put(TileItemContainerHelper.INVENTORY, c.getInventory().serializeNBT());
         }
         if (be instanceof ITankTile t) {
             CompoundTag fluid = new CompoundTag();
             t.getTank().writeToNBT(fluid);
             tag.put(FluidUtil.FLUID, fluid);
         }
-        if (be instanceof ITimeRecipeBE<?> time) {
-            tag.putInt(ITimeRecipeBE.TIME, time.getTime());
+        if (be instanceof ITimeRecipeTile<?> time) {
+            tag.putInt(ITimeRecipeTile.TIME, time.getTime());
         }
-        if (be instanceof IIndividualTimeRecipeBE<?> in) {
-            tag.putIntArray(IIndividualTimeRecipeBE.SINGLE_STACK_TIME, in.getTimes());
+        if (be instanceof IIndividualTimeRecipeTile<?> in) {
+            tag.putIntArray(IIndividualTimeRecipeTile.SINGLE_STACK_TIME, in.getTimes());
         }
     }
 
@@ -38,16 +36,16 @@ public class BlockEntityDataHolder {
         BlockEntity be = event.getBlockEntity();
         CompoundTag tag = event.getTag();
         if (be instanceof IContainerTile c) {
-            c.getInventory().deserializeNBT(tag.getCompound(ContainerUtil.INVENTORY));
+            c.getInventory().deserializeNBT(tag.getCompound(TileItemContainerHelper.INVENTORY));
         }
         if (be instanceof ITankTile t) {
             t.getTank().readFromNBT(tag.getCompound(FluidUtil.FLUID));
         }
-        if (be instanceof ITimeRecipeBE<?> time) {
-            time.setTime(tag.getInt(ITimeRecipeBE.TIME));
+        if (be instanceof ITimeRecipeTile<?> time) {
+            time.setTime(tag.getInt(ITimeRecipeTile.TIME));
         }
-        if (be instanceof IIndividualTimeRecipeBE<?> in) {
-            int[] getFrom = tag.getIntArray(IIndividualTimeRecipeBE.SINGLE_STACK_TIME);
+        if (be instanceof IIndividualTimeRecipeTile<?> in) {
+            int[] getFrom = tag.getIntArray(IIndividualTimeRecipeTile.SINGLE_STACK_TIME);
             if (getFrom.length != 0) {
                 in.setTimes(getFrom);
             }

@@ -2,11 +2,13 @@ package cn.solarmoon.solarmoon_core.api.util;
 
 import cn.solarmoon.solarmoon_core.api.blockentity_util.IContainerBE;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.ItemStackHandler;
 
+@Deprecated
 public class ContainerUtil {
 
     public static final String INVENTORY = "Inventory";

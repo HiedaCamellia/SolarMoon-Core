@@ -30,8 +30,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setStartOnChanged(boolean startOnChanged) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .flag(startOnChanged)
@@ -47,8 +46,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setTicks(int ticks) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .f(ticks)
@@ -60,8 +58,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setFactor(int factor) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .f(factor)
@@ -77,8 +74,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setMaxTick(int maxTick) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .f(maxTick)
@@ -98,8 +94,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setFixedValue(float fixedValue) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .f(fixedValue)
@@ -115,8 +110,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setFixedFluid(FluidStack fixedFluid) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .fluidStack(fixedFluid)
@@ -142,8 +136,7 @@ public class AnimTicker implements INBTSerializable<CompoundTag> {
 
     public void setEnabled(boolean enabled) {
         Level level = blockEntity.getLevel();
-        if (level == null) return;
-        if (level.isClientSide) {
+        if (level != null && level.isClientSide) {
             SolarNetPacks.SERVER.getSender()
                     .pos(blockEntity.getBlockPos())
                     .flag(enabled)

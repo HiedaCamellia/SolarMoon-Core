@@ -3,6 +3,7 @@ package cn.solarmoon.solarmoon_core.api.renderer;
 import cn.solarmoon.solarmoon_core.api.blockentity_util.ITankBE;
 import cn.solarmoon.solarmoon_core.api.capability.anim_ticker.AnimTicker;
 import cn.solarmoon.solarmoon_core.api.phys.SMath;
+import cn.solarmoon.solarmoon_core.api.tile.ITankTile;
 import cn.solarmoon.solarmoon_core.api.util.FluidUtil;
 import cn.solarmoon.solarmoon_core.feature.capability.IBlockEntityData;
 import cn.solarmoon.solarmoon_core.registry.common.SolarCapabilities;
@@ -58,7 +59,7 @@ public class TextureRenderUtil {
     }
 
     public static void renderAnimatedFluid(float width, float height, float yOffset, BlockEntity be, PoseStack poseStack, MultiBufferSource buffer, int light) {
-        if (be instanceof ITankBE pot) {
+        if (be instanceof ITankTile pot) {
             FluidTank tank = pot.getTank();
             FluidStack fluidStack = tank.getFluidInTank(0);
             IBlockEntityData data = be.getCapability(SolarCapabilities.BLOCK_ENTITY_DATA).orElse(null);
@@ -104,6 +105,24 @@ public class TextureRenderUtil {
         }
     }
 
+    public static void renderStaticFluid(float width, float height, float yOffset, FluidTank fluidTank, PoseStack poseStack, MultiBufferSource buffer, int light) {
+        poseStack.pushPose();
+        poseStack.translate(0, yOffset, 0);
+        FluidStack fluidStack = fluidTank.getFluid();
+        int targetColor = TextureRenderUtil.getColor(fluidStack);
+        Fluid fluid = fluidStack.getFluid();
+        IClientFluidTypeExtensions fluidAttributes = IClientFluidTypeExtensions.of(fluid);
+        ResourceLocation spriteLocation = fluidAttributes.getStillTexture(fluidStack);
+        float H = FluidUtil.getScale(fluidTank) * height;
+        if (spriteLocation != null) {
+            TextureRenderUtil.render(spriteLocation,
+                    0, 0, (int) (width * 16), (int) (width * 16), width, H,
+                    targetColor, 1, 0, poseStack, buffer, light);
+        }
+        poseStack.popPose();
+    }
+
+    @Deprecated
     public static void renderStaticFluid(float width, float height, float yOffset, ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int light) {
         poseStack.pushPose();
         poseStack.translate(0, yOffset, 0);

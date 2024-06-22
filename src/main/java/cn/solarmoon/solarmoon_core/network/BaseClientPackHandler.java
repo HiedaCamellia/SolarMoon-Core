@@ -2,6 +2,7 @@ package cn.solarmoon.solarmoon_core.network;
 
 
 import cn.solarmoon.solarmoon_core.api.network.IClientPackHandler;
+import cn.solarmoon.solarmoon_core.registry.common.SolarCapabilities;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -37,6 +39,13 @@ public class BaseClientPackHandler implements IClientPackHandler {
             case NETList.PARTICLE_SWEEP -> {
                 Vec3 spawnPos = vec3List.get(0);
                 level.addParticle(ParticleTypes.SWEEP_ATTACK, spawnPos.x, spawnPos.y-0.35, spawnPos.z, 0, 0, 0);
+            }
+            case NETList.SYNC_ANIM -> {
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (blockEntity == null) return;
+                blockEntity.getCapability(SolarCapabilities.BLOCK_ENTITY_DATA).ifPresent(d -> {
+                    d.getAnimTicker(i).deserializeNBT(tag);
+                });
             }
         }
     }
