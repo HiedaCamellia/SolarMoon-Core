@@ -2,6 +2,8 @@ package cn.solarmoon.solarmoon_core.mixin;
 
 
 import cn.solarmoon.solarmoon_core.api.ability.CustomPlaceableItem;
+import cn.solarmoon.solarmoon_core.api.tile.fluid.ITankTileItem;
+import cn.solarmoon.solarmoon_core.api.tile.inventory.TileItemFluidHandler;
 import cn.solarmoon.solarmoon_core.api.item_util.ITankItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -12,17 +14,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.extensions.IForgeItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -30,16 +29,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Item.class)
 public abstract class ItemMixin implements IForgeItem {
 
-    private BlockState lastState;
-
-    @Shadow
-    protected static BlockHitResult getPlayerPOVHitResult(Level p_41436_, Player p_41437_, ClipContext.Fluid p_41438_) {
-        return null;
-    }
-
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         Item item = stack.getItem();
+        if (item instanceof ITankTileItem tankItem) {
+            return new TileItemFluidHandler(stack, tankItem.getMaxCapacity());
+        }
         if (item instanceof ITankItem tankItem) {
             return new FluidHandlerItemStack(stack, tankItem.getMaxCapacity());
         }

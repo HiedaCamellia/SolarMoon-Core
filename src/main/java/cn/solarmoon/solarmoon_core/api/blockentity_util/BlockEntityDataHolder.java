@@ -1,8 +1,8 @@
 package cn.solarmoon.solarmoon_core.api.blockentity_util;
 
 import cn.solarmoon.solarmoon_core.api.event.BlockEntityDataEvent;
-import cn.solarmoon.solarmoon_core.api.tile.IContainerTile;
-import cn.solarmoon.solarmoon_core.api.tile.ITankTile;
+import cn.solarmoon.solarmoon_core.api.tile.inventory.IContainerTile;
+import cn.solarmoon.solarmoon_core.api.tile.fluid.ITankTile;
 import cn.solarmoon.solarmoon_core.api.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.api.util.FluidUtil;
 import net.minecraft.nbt.CompoundTag;

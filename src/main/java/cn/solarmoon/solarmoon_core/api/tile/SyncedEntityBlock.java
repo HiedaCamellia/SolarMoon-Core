@@ -1,8 +1,8 @@
 package cn.solarmoon.solarmoon_core.api.tile;
 
 import cn.solarmoon.solarmoon_core.api.block_base.BasicEntityBlock;
-import cn.solarmoon.solarmoon_core.api.blockentity_util.IContainerBE;
-import cn.solarmoon.solarmoon_core.api.blockentity_util.ITankBE;
+import cn.solarmoon.solarmoon_core.api.tile.fluid.ITankTile;
+import cn.solarmoon.solarmoon_core.api.tile.inventory.IContainerTile;
 import cn.solarmoon.solarmoon_core.api.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.api.util.FluidUtil;
 import net.minecraft.core.BlockPos;

@@ -1,6 +1,5 @@
-package cn.solarmoon.solarmoon_core.api.tile;
+package cn.solarmoon.solarmoon_core.api.tile.inventory;
 
-import cn.solarmoon.solarmoon_core.api.util.ContainerUtil;
 import cn.solarmoon.solarmoon_core.api.util.LevelSummonUtil;
 import cn.solarmoon.solarmoon_core.network.NETList;
 import cn.solarmoon.solarmoon_core.registry.common.SolarNetPacks;
@@ -22,13 +21,15 @@ import java.util.List;
  */
 public interface IContainerTile {
 
+    String INVENTORY = "Inventory";
+
     ItemStackHandler getInventory();
 
     /**
      * 从tag中读取inventory信息
      */
     default void setInventory(CompoundTag tag) {
-        getInventory().deserializeNBT(tag.getCompound(ContainerUtil.INVENTORY));
+        getInventory().deserializeNBT(tag.getCompound(INVENTORY));
     }
 
     /**

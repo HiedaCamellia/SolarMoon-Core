@@ -1,10 +1,13 @@
-package cn.solarmoon.solarmoon_core.api.tile;
+package cn.solarmoon.solarmoon_core.api.tile.inventory;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
+/**
+ * 自动同步并存有实体信息
+ */
 public class TileInventory extends ItemStackHandler {
 
     private int slotLimit = 64;

@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.tile;
+package cn.solarmoon.solarmoon_core.api.tile.fluid;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 /**
@@ -33,7 +34,7 @@ public interface ITankTile {
      * 一个根据tag强制设置储罐内容物的方法
      */
     default void setFluid(CompoundTag tag) {
-        getTank().readFromNBT(tag.getCompound(cn.solarmoon.solarmoon_core.api.util.FluidUtil.FLUID));
+        getTank().readFromNBT(tag.getCompound(FluidHandlerItemStack.FLUID_NBT_KEY));
     }
 
     /**

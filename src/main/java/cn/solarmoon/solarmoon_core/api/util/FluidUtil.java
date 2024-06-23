@@ -18,6 +18,7 @@ public class FluidUtil {
     /**
      * 获取物品容器内的fluidTank
      */
+    @Deprecated
     public static IFluidHandlerItem getTank(ItemStack stack) {
         return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
     }
@@ -25,6 +26,7 @@ public class FluidUtil {
     /**
      * 获取方块实体容器内的fluidTank
      */
+    @Deprecated
     public static IFluidHandler getTank(BlockEntity blockEntity) {
         return blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
     }
@@ -32,6 +34,7 @@ public class FluidUtil {
     /**
      * 获取物品容器内的fluidStack
      */
+    @Deprecated
     public static FluidStack getFluidStack(ItemStack stack) {
         IFluidHandlerItem tankStack = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
         return tankStack.getFluidInTank(0);
@@ -40,6 +43,7 @@ public class FluidUtil {
     /**
      * 获取方块实体容器内的fluidStack
      */
+    @Deprecated
     public static FluidStack getFluidStack(BlockEntity blockEntity) {
         IFluidHandler tank = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
         return tank.getFluidInTank(0);

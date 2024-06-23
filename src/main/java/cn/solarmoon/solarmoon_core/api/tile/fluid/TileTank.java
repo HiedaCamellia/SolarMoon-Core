@@ -1,4 +1,4 @@
-package cn.solarmoon.solarmoon_core.api.tile;
+package cn.solarmoon.solarmoon_core.api.tile.fluid;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
@@ -6,6 +6,9 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import java.util.function.Predicate;
 
+/**
+ * 自动同步并存有实体信息
+ */
 public class TileTank extends FluidTank {
 
     private final BlockEntity blockEntity;
